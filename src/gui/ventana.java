@@ -8,7 +8,14 @@ import datos.*;
  * @author felipe
  */
 public class ventana extends javax.swing.JFrame {
-    
+    daoCuentaAhorro dbc2 = new daoCuentaAhorro();
+    cuentaAhorro[] cuentas;
+    daoCliente dbc = new daoCliente();
+    cliente[] clientes;
+    daoMovimientoCuenta dbc3 = new daoMovimientoCuenta();
+    movimientoCuenta[] movimientos;
+    daoEventoCuenta dbc4 = new daoEventoCuenta();
+    eventoCuenta[] eventos;
     Object[][] dataCliente;
     Object[][] dataCuenta;
     Object[][] dataMovimiento;
@@ -30,10 +37,57 @@ public class ventana extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() throws SQLException{
+
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        panelCuenta = new javax.swing.JPanel();
+        labelNumCuenta = new javax.swing.JLabel();
+        campoNumCuenta = new javax.swing.JTextField();
+        labelEstado = new javax.swing.JLabel();
+        campoEstado = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaCuenta = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        labelSaldo = new javax.swing.JLabel();
+        campoSaldo = new javax.swing.JTextField();
+        labelFecha = new javax.swing.JLabel();
+        campoFecha = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        labelIdenCliente = new javax.swing.JLabel();
+        campoIdenCliente = new javax.swing.JTextField();
+        panelTransacciones = new javax.swing.JPanel();
+        labelCuentaOrigen = new javax.swing.JLabel();
+        campoCantidad = new javax.swing.JTextField();
+        labelCuentaDestino = new javax.swing.JLabel();
+        campoCuentaDestino = new javax.swing.JTextField();
+        labelCantidad = new javax.swing.JLabel();
+        campoCuentaOrigen = new javax.swing.JTextField();
+        botonFinalizarTransaccion = new javax.swing.JButton();
+        botonConsultarMovimientos = new javax.swing.JButton();
+        elegirTransaccion = new javax.swing.JComboBox<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaMovimientos = new javax.swing.JTable();
+        botonConsultarTodosMovimientos = new javax.swing.JButton();
+        panelEventos = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaEventos = new javax.swing.JTable();
+        labelNumCuentaEvento = new javax.swing.JLabel();
+        campoNumCuentaEvento = new javax.swing.JTextField();
+        botonConsultarEvento = new javax.swing.JButton();
+        botonActivarCuenta = new javax.swing.JButton();
+        labelCodigoEvento = new javax.swing.JLabel();
+        campoCodigoEvento = new javax.swing.JTextField();
+        labelTipoEvento = new javax.swing.JLabel();
+        campoTipoEvento = new javax.swing.JTextField();
+        labelFechaEvento = new javax.swing.JLabel();
+        campoFechaEvento = new javax.swing.JTextField();
+        labelDescripcionEvento = new javax.swing.JLabel();
+        campoDescripcionEvento = new javax.swing.JTextField();
+        botonDesactivarCuenta = new javax.swing.JButton();
+        botonBloquearCuenta = new javax.swing.JButton();
+        panelClientes = new javax.swing.JPanel();
         campoFechaNacimiento = new javax.swing.JTextField();
         labelOcupacion = new javax.swing.JLabel();
         labelCorreoElectronico = new javax.swing.JLabel();
@@ -54,45 +108,14 @@ public class ventana extends javax.swing.JFrame {
         campoDireccion = new javax.swing.JTextField();
         labelTelefono = new javax.swing.JLabel();
         campoTelefono = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        botonConsultarCliente = new javax.swing.JButton();
+        botonInsertarCliente = new javax.swing.JButton();
+        botonEliminarCliente = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaCliente = new javax.swing.JTable();
         labelIngresoMensual = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
-        jScrollBar2 = new javax.swing.JScrollBar();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tablaCuenta = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jLabel14 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
+        campoIngresoMensual = new javax.swing.JTextField();
+        botonActualizarCliente = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -118,200 +141,53 @@ public class ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelCuenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        campoFechaNacimiento.setEnabled(false);
-        campoFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
+        labelNumCuenta.setText("Número de cuenta");
+        panelCuenta.add(labelNumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+
+        campoNumCuenta.setEnabled(false);
+        campoNumCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoFechaNacimientoActionPerformed(evt);
+                campoNumCuentaActionPerformed(evt);
             }
         });
-        jPanel1.add(campoFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 330, 140, 30));
+        panelCuenta.add(campoNumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 140, 30));
 
-        labelOcupacion.setText("Ocupación");
-        jPanel1.add(labelOcupacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 30, -1));
+        labelEstado.setText("Estado");
+        panelCuenta.add(labelEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
 
-        labelCorreoElectronico.setText("Correo electrónico");
-        jPanel1.add(labelCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, 60, -1));
-
-        campoOcupacion.setEnabled(false);
-        campoOcupacion.addActionListener(new java.awt.event.ActionListener() {
+        campoEstado.setEnabled(false);
+        campoEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoOcupacionActionPerformed(evt);
+                campoEstadoActionPerformed(evt);
             }
         });
-        jPanel1.add(campoOcupacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, 30));
+        panelCuenta.add(campoEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 140, 30));
 
-        campoCorreoElectronico.setEnabled(false);
-        campoCorreoElectronico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCorreoElectronicoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 390, 140, 30));
-
-        labelFechaNacimiento.setText("Fecha nacimiento");
-        jPanel1.add(labelFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 340, 60, -1));
-
-        labelSexo.setText("Sexo");
-        jPanel1.add(labelSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, -1, -1));
-
-        campoSexo.setEnabled(false);
-        campoSexo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoSexoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 140, 30));
-
-        labelDNI.setText("DNI");
-        jPanel1.add(labelDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
-
-        campoDNI.setEnabled(false);
-        campoDNI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDNIActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, 30));
-
-        labelTipoID.setText("Tipo ID");
-        jPanel1.add(labelTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, -1));
-
-        campoTipoID.setEnabled(false);
-        campoTipoID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTipoIDActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 140, 30));
-
-        labelNombre.setText("Nombre");
-        jPanel1.add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
-
-        campoNombre.setEnabled(false);
-        campoNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoNombreActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 140, 30));
-
-        labelApellido.setText("Apellido");
-        jPanel1.add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 280, -1, -1));
-
-        campoApellido.setEnabled(false);
-        campoApellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoApellidoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 30));
-
-        labelDireccion.setText("Dirección");
-        jPanel1.add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 30, -1));
-
-        campoDireccion.setEnabled(false);
-        campoDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDireccionActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, 30));
-
-        labelTelefono.setText("Teléfono");
-        jPanel1.add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, -1, -1));
-
-        campoTelefono.setEnabled(false);
-        campoTelefono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTelefonoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(campoTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 140, 30));
-
-        jButton1.setText("Consultar ");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 390, -1, -1));
-
-        jButton2.setText("Insertar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 390, -1, -1));
-
-        jButton3.setText("Eliminar");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, -1, -1));
-	
-	this.llenaClientes();
-
-        tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
-           dataCliente,
-            new String [] {
-                "DNI", "Tipo de indentificación", "Nombre", "Apellido", "Dirección", "Teléfono", "Sexo", "Fecha nacimiento", "Ocupación", "Correo electrónico", "Ingresos mensuales"
-            }
-        ));
-        tablaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tablaCliente.setEnabled(false);
-        jScrollPane3.setViewportView(tablaCliente);
-        tablaCliente.getAccessibleContext().setAccessibleParent(tablaCliente);
-
-        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 260));
-
-        labelIngresoMensual.setText("Ingreso mensual");
-        jPanel1.add(labelIngresoMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 60, -1));
-
-        jTextField1.setEnabled(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 120, 30));
-
-        jTabbedPane1.addTab("Clientes", jPanel1);
-
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel15.setText("Número de cuenta");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
-
-        jTextField15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField15ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 140, 30));
-
-        jLabel16.setText("Nombre");
-        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
-
-        jTextField16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField16ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 140, 30));
-        jPanel3.add(jScrollBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 150, -1, -1));
-	llenaCuentas();
+        this.llenaCuentas();
         tablaCuenta.setModel(new javax.swing.table.DefaultTableModel(
-           dataCuenta,
+            dataCuenta,
             new String [] {
-                "Número cuenta", "Estado","Saldo", "Fecha apertura", "Identificación asociada"
+                "Número de cuenta", "Estado", "Saldo", "Fecha apertura", "Documento asociado"
             }
-        ));
-        tablaCuenta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tablaCuenta.setEnabled(false);
-        jScrollPane2.setViewportView(tablaCuenta);
-        tablaCuenta.getAccessibleContext().setAccessibleParent(tablaCuenta);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+            };
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 230));
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tablaCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCuentaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tablaCuenta);
+
+        panelCuenta.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 230));
 
         jButton4.setText("Consultar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -319,263 +195,548 @@ public class ventana extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
+        panelCuenta.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
 
-        jButton5.setText("Inactivar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        labelSaldo.setText("Saldo");
+        panelCuenta.add(labelSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, -1, -1));
+
+        campoSaldo.setEnabled(false);
+        panelCuenta.add(campoSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 130, 30));
+
+        labelFecha.setText("Fecha apertura");
+        panelCuenta.add(labelFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 280, -1, -1));
+
+        campoFecha.setEnabled(false);
+        panelCuenta.add(campoFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 90, 30));
+
+        jButton8.setText("Insertar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButton8ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, -1, -1));
+        panelCuenta.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
 
-        jButton6.setText("Bloquear");
-        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
-
-        jButton7.setText("Desbloquear");
-        jPanel3.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, -1, -1));
-
-        jButton13.setText("Detalle estado");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
-
-        jTabbedPane1.addTab("Cuenta", jPanel3);
-
-        jLabel11.setText("Cuenta Origen");
-
-        jLabel12.setText("Cuenta Destino");
-
-        jLabel13.setText("Cantidad a transferir ");
-
-        jButton8.setText("Transferir");
-
-        jButton9.setText("Retirar");
+        jButton9.setText("Actualizar");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
+        panelCuenta.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, -1, -1));
 
-        jButton10.setText("Consignar");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        labelIdenCliente.setText("Documento asociado");
+        panelCuenta.add(labelIdenCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
+
+        campoIdenCliente.setEnabled(false);
+        panelCuenta.add(campoIdenCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 130, 30));
+
+        jTabbedPane1.addTab("Cuenta", panelCuenta);
+
+        labelCuentaOrigen.setText("Cuenta Origen");
+
+        campoCantidad.setEnabled(false);
+
+        labelCuentaDestino.setText("Cuenta Destino");
+
+        campoCuentaDestino.setEnabled(false);
+
+        labelCantidad.setText("Cantidad ");
+
+        campoCuentaOrigen.setEnabled(false);
+
+        botonFinalizarTransaccion.setText("Finalizar transacción");
+        botonFinalizarTransaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                botonFinalizarTransaccionActionPerformed(evt);
             }
         });
 
-        jButton11.setText("Finalizar transacción");
-
-        jButton12.setText("Consultar movimientos");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        botonConsultarMovimientos.setText("Consultar movimientos de la cuenta");
+        botonConsultarMovimientos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                botonConsultarMovimientosActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton12)
-                    .addComponent(jButton11)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton10)))
-                .addContainerGap(258, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9)
-                    .addComponent(jButton10))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addComponent(jButton11)
-                .addGap(18, 18, 18)
-                .addComponent(jButton12)
-                .addContainerGap(162, Short.MAX_VALUE))
-        );
+        elegirTransaccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo movimiento", "Retirar", "Transferencia", " " }));
+        elegirTransaccion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                elegirTransaccionItemStateChanged(evt);
+            }
+        });
+        elegirTransaccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                elegirTransaccionActionPerformed(evt);
+            }
+        });
 
-        jTabbedPane1.addTab("Transacciones", jPanel2);
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null}
-            },
+        this.llenaMovimientos();
+        tablaMovimientos.setModel(new javax.swing.table.DefaultTableModel(
+            dataMovimiento,
             new String [] {
-                "Código", "Modalidad", "Tasa de interés", "Plazo", "Fecha aprobación", "Fecha desembolso", "Valor prestado", "Fecha último pago", "Valor último pago", "Saldo pendiente", "Estado", "Cliente asociado"
+                "Código movimiento", "Valor movimiento", "Tipo movimiento", "Fecha movimiento", "Número de cuenta"
             }
         ));
-        jScrollPane1.setViewportView(jTable3);
-        jTable3.getAccessibleContext().setAccessibleParent(jTable3);
+        jScrollPane4.setViewportView(tablaMovimientos);
 
-        jLabel14.setText("Código");
+        botonConsultarTodosMovimientos.setText("Consultar todos los movimientos");
 
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
-            }
-        });
-
-        jButton14.setText("Consultar");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-
-        jButton15.setText("Añadir crédito");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelTransaccionesLayout = new javax.swing.GroupLayout(panelTransacciones);
+        panelTransacciones.setLayout(panelTransaccionesLayout);
+        panelTransaccionesLayout.setHorizontalGroup(
+            panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTransaccionesLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton15)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
+                .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                        .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTransaccionesLayout.createSequentialGroup()
+                                    .addComponent(labelCantidad)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTransaccionesLayout.createSequentialGroup()
+                                    .addComponent(labelCuentaDestino)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(campoCuentaDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(elegirTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                                .addComponent(labelCuentaOrigen)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(campoCuentaOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                        .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(botonConsultarTodosMovimientos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonFinalizarTransaccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonConsultarMovimientos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(100, 100, 100)))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelTransaccionesLayout.setVerticalGroup(
+            panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                        .addComponent(elegirTransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCuentaOrigen)
+                            .addComponent(campoCuentaOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCuentaDestino)
+                            .addComponent(campoCuentaDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(panelTransaccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCantidad)
+                            .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonFinalizarTransaccion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE))
+                    .addGroup(panelTransaccionesLayout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)))
+                .addComponent(botonConsultarMovimientos)
+                .addGap(18, 18, 18)
+                .addComponent(botonConsultarTodosMovimientos)
+                .addContainerGap(103, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Transacciones", panelTransacciones);
+
+        tablaEventos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Código Evento", "Tipo evento", "Fecha evento", "Descripción evento", "Número cuenta asociada"
+            }
+        ));
+        tablaEventos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEventosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaEventos);
+        tablaEventos.getAccessibleContext().setAccessibleParent(tablaEventos);
+
+        labelNumCuentaEvento.setText("Número de cuenta");
+
+        campoNumCuentaEvento.setEnabled(false);
+        campoNumCuentaEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoNumCuentaEventoActionPerformed(evt);
+            }
+        });
+
+        botonConsultarEvento.setText("Consultar");
+        botonConsultarEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConsultarEventoActionPerformed(evt);
+            }
+        });
+
+        botonActivarCuenta.setText("Activar cuenta");
+        botonActivarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActivarCuentaActionPerformed(evt);
+            }
+        });
+
+        labelCodigoEvento.setText("Código evento");
+
+        campoCodigoEvento.setEnabled(false);
+
+        labelTipoEvento.setText("Tipo Evento");
+
+        campoTipoEvento.setEnabled(false);
+
+        labelFechaEvento.setText("Fecha evento");
+
+        campoFechaEvento.setEnabled(false);
+        campoFechaEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoFechaEventoActionPerformed(evt);
+            }
+        });
+
+        labelDescripcionEvento.setText("Descripción evento");
+
+        campoDescripcionEvento.setEnabled(false);
+
+        botonDesactivarCuenta.setText("Desactivar cuenta");
+        botonDesactivarCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDesactivarCuentaActionPerformed(evt);
+            }
+        });
+
+        botonBloquearCuenta.setText("Bloquear cuenta");
+        botonBloquearCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBloquearCuentaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelEventosLayout = new javax.swing.GroupLayout(panelEventos);
+        panelEventos.setLayout(panelEventosLayout);
+        panelEventosLayout.setHorizontalGroup(
+            panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+            .addGroup(panelEventosLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEventosLayout.createSequentialGroup()
+                        .addComponent(labelCodigoEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton14)))
+                        .addComponent(campoCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelTipoEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoTipoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelFechaEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelDescripcionEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoDescripcionEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelEventosLayout.createSequentialGroup()
+                        .addComponent(botonActivarCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonDesactivarCuenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonBloquearCuenta))
+                    .addGroup(panelEventosLayout.createSequentialGroup()
+                        .addComponent(labelNumCuentaEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoNumCuentaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonConsultarEvento)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        panelEventosLayout.setVerticalGroup(
+            panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEventosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton14))))
+                .addGap(26, 26, 26)
+                .addGroup(panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCodigoEvento)
+                    .addComponent(campoCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTipoEvento)
+                    .addComponent(campoTipoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelFechaEvento)
+                    .addComponent(campoFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelDescripcionEvento)
+                    .addComponent(campoDescripcionEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNumCuentaEvento)
+                    .addComponent(campoNumCuentaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonConsultarEvento))
                 .addGap(27, 27, 27)
-                .addComponent(jButton15)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonActivarCuenta)
+                    .addComponent(botonDesactivarCuenta)
+                    .addComponent(botonBloquearCuenta))
+                .addGap(31, 31, 31))
         );
 
-        jTabbedPane1.addTab("Créditos", jPanel6);
+        jTabbedPane1.addTab("Eventos", panelEventos);
+
+        panelClientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        campoFechaNacimiento.setEnabled(false);
+        campoFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoFechaNacimientoActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 330, 140, 30));
+
+        labelOcupacion.setText("Ocupación");
+        panelClientes.add(labelOcupacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 30, -1));
+
+        labelCorreoElectronico.setText("Correo electrónico");
+        panelClientes.add(labelCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, 60, -1));
+
+        campoOcupacion.setEnabled(false);
+        campoOcupacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoOcupacionActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoOcupacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, 30));
+
+        campoCorreoElectronico.setEnabled(false);
+        campoCorreoElectronico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCorreoElectronicoActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 390, 140, 30));
+
+        labelFechaNacimiento.setText("Fecha nacimiento");
+        panelClientes.add(labelFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 340, 60, -1));
+
+        labelSexo.setText("Sexo");
+        panelClientes.add(labelSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, -1, -1));
+
+        campoSexo.setEnabled(false);
+        campoSexo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoSexoActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 140, 30));
+
+        labelDNI.setText("DNI");
+        panelClientes.add(labelDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+
+        campoDNI.setEnabled(false);
+        campoDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoDNIActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, 30));
+
+        labelTipoID.setText("Tipo ID");
+        panelClientes.add(labelTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, -1));
+
+        campoTipoID.setEnabled(false);
+        campoTipoID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoTipoIDActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 140, 30));
+
+        labelNombre.setText("Nombre");
+        panelClientes.add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
+
+        campoNombre.setEnabled(false);
+        campoNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoNombreActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 140, 30));
+
+        labelApellido.setText("Apellido");
+        panelClientes.add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 280, -1, -1));
+
+        campoApellido.setEnabled(false);
+        campoApellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoApellidoActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 30));
+
+        labelDireccion.setText("Dirección");
+        panelClientes.add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 30, -1));
+
+        campoDireccion.setEnabled(false);
+        campoDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoDireccionActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, 30));
+
+        labelTelefono.setText("Teléfono");
+        panelClientes.add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, -1, -1));
+
+        campoTelefono.setEnabled(false);
+        campoTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoTelefonoActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 140, 30));
+
+        botonConsultarCliente.setText("Consultar ");
+        botonConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConsultarClienteActionPerformed(evt);
+            }
+        });
+        panelClientes.add(botonConsultarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 390, -1, -1));
+
+        botonInsertarCliente.setText("Insertar");
+        botonInsertarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonInsertarClienteActionPerformed(evt);
+            }
+        });
+        panelClientes.add(botonInsertarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 390, -1, -1));
+
+        botonEliminarCliente.setText("Eliminar");
+        panelClientes.add(botonEliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, -1, -1));
+
+        this.llenaClientes();
+        tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
+            dataCliente,
+            new String [] {
+                "DNI", "Tipo de indentificación", "Nombre", "Apellido", "Dirección", "Teléfono", "Sexo", "Fecha nacimiento", "Ocupación", "Correo electrónico", "Ingresos mensuales"
+            }
+        ));
+        tablaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tablaCliente);
+
+        panelClientes.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 260));
+
+        labelIngresoMensual.setText("Ingreso mensual");
+        panelClientes.add(labelIngresoMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 60, -1));
+
+        campoIngresoMensual.setEnabled(false);
+        campoIngresoMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoIngresoMensualActionPerformed(evt);
+            }
+        });
+        panelClientes.add(campoIngresoMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 120, 30));
+
+        botonActualizarCliente.setText("Modificar");
+        botonActualizarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarClienteActionPerformed(evt);
+            }
+        });
+        panelClientes.add(botonActualizarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 420, 100, -1));
+
+        jTabbedPane1.addTab("Clientes", panelClientes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -591,97 +752,207 @@ public class ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoFechaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoFechaNacimientoActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        this.campoNumCuenta.setEnabled(true);
+        this.campoIdenCliente.setEnabled(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void campoOcupacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoOcupacionActionPerformed
+    private void campoEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoEstadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoOcupacionActionPerformed
+    }//GEN-LAST:event_campoEstadoActionPerformed
 
-    private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
+    private void campoNumCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumCuentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoCorreoElectronicoActionPerformed
+    }//GEN-LAST:event_campoNumCuentaActionPerformed
 
-    private void campoSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSexoActionPerformed
+    private void campoIngresoMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoIngresoMensualActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoSexoActionPerformed
+    }//GEN-LAST:event_campoIngresoMensualActionPerformed
 
-    private void campoDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDNIActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoDNIActionPerformed
+    private void botonInsertarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInsertarClienteActionPerformed
+        this.campoDNI.setText("");
+        this.campoTipoID.setText("");
+        this.campoNombre.setText("");
+        this.campoApellido.setText("");
+        this.campoDireccion.setText("");
+        this.campoTelefono.setText("");
+        this.campoSexo.setText("");
+        this.campoFechaNacimiento.setText("");
+        this.campoOcupacion.setText("");
+        this.campoCorreoElectronico.setText("");
+        this.campoIngresoMensual.setText("");
+        this.campoDNI.setEnabled(true);
+        this.campoTipoID.setEnabled(true);
+        this.campoNombre.setEnabled(true);
+        this.campoApellido.setEnabled(true);
+        this.campoDireccion.setEnabled(true);
+        this.campoTelefono.setEnabled(true);
+        this.campoSexo.setEnabled(true);
+        this.campoFechaNacimiento.setEnabled(true);
+        this.campoOcupacion.setEnabled(true);
+        this.campoCorreoElectronico.setEnabled(true);
+        this.campoIngresoMensual.setEnabled(true);
+    }//GEN-LAST:event_botonInsertarClienteActionPerformed
 
-    private void campoTipoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTipoIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoTipoIDActionPerformed
-
-    private void campoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoNombreActionPerformed
-
-    private void campoApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoApellidoActionPerformed
-
-    private void campoDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDireccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoDireccionActionPerformed
+    private void botonConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarClienteActionPerformed
+        this.campoDNI.setEnabled(true);
+    }//GEN-LAST:event_botonConsultarClienteActionPerformed
 
     private void campoTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campoTelefonoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void campoDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDireccionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_campoDireccionActionPerformed
 
-    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
+    private void campoApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoApellidoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField15ActionPerformed
+    }//GEN-LAST:event_campoApellidoActionPerformed
 
-    private void jTextField16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField16ActionPerformed
+    private void campoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField16ActionPerformed
+    }//GEN-LAST:event_campoNombreActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void campoTipoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoTipoIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_campoTipoIDActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void campoDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDNIActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_campoDNIActionPerformed
+
+    private void campoSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSexoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoSexoActionPerformed
+
+    private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCorreoElectronicoActionPerformed
+
+    private void campoOcupacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoOcupacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoOcupacionActionPerformed
+
+    private void campoFechaNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaNacimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoFechaNacimientoActionPerformed
+
+    private void botonConsultarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarEventoActionPerformed
+        this.campoNumCuentaEvento.setEnabled(true);
+    }//GEN-LAST:event_botonConsultarEventoActionPerformed
+
+    private void campoNumCuentaEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumCuentaEventoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoNumCuentaEventoActionPerformed
+
+    private void botonActivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActivarCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonActivarCuentaActionPerformed
+
+    private void campoFechaEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoFechaEventoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoFechaEventoActionPerformed
+
+    private void botonConsultarMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarMovimientosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonConsultarMovimientosActionPerformed
+
+    private void botonDesactivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDesactivarCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonDesactivarCuentaActionPerformed
+
+    private void botonBloquearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBloquearCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonBloquearCuentaActionPerformed
+
+    private void elegirTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elegirTransaccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_elegirTransaccionActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+       this.campoNumCuenta.setText("");
+       this.campoIdenCliente.setText("");
+       this.campoEstado.setText("");
+       this.campoSaldo.setText("");
+       this.campoFecha.setText(""); 
+       this.campoNumCuenta.setEnabled(true);
+       this.campoIdenCliente.setEnabled(true);
+       this.campoEstado.setEnabled(true);
+       this.campoSaldo.setEnabled(true);
+       this.campoFecha.setEnabled(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void botonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarClienteActionPerformed
+        this.campoDNI.setEnabled(true);
+        this.campoTipoID.setEnabled(true);
+        this.campoNombre.setEnabled(true);
+        this.campoApellido.setEnabled(true);
+        this.campoDireccion.setEnabled(true);
+        this.campoTelefono.setEnabled(true);
+        this.campoSexo.setEnabled(true);
+        this.campoFechaNacimiento.setEnabled(true);
+        this.campoOcupacion.setEnabled(true);
+        this.campoCorreoElectronico.setEnabled(true);
+        this.campoIngresoMensual.setEnabled(true);
+    }//GEN-LAST:event_botonActualizarClienteActionPerformed
+
+    private void elegirTransaccionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_elegirTransaccionItemStateChanged
+        switch (this.elegirTransaccion.getSelectedItem().toString()) {
+            case "Retirar":
+                this.campoCuentaOrigen.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
+                break;
+            case "Transferencia":
+                this.campoCuentaOrigen.setEnabled(true);
+                this.campoCuentaDestino.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_elegirTransaccionItemStateChanged
+
+    private void botonFinalizarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFinalizarTransaccionActionPerformed
+        this.campoCuentaOrigen.setEnabled(false);
+        this.campoCuentaDestino.setEnabled(false);
+        this.campoCantidad.setEnabled(false);
+    }//GEN-LAST:event_botonFinalizarTransaccionActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        this.campoNumCuenta.setEnabled(true);
+        this.campoIdenCliente.setEnabled(true);
+        this.campoEstado.setEnabled(true);
+        this.campoSaldo.setEnabled(true);
+        this.campoFecha.setEnabled(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void tablaCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCuentaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_tablaCuentaMouseClicked
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void tablaEventosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEventosMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_tablaEventosMouseClicked
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
+    private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClienteMouseClicked
+        int fila;
+        fila = tablaCliente.rowAtPoint(evt.getPoint());
+        int columna = tablaCliente.columnAtPoint(evt.getPoint());
+        if ((fila > -1) && (columna > -1)){
+            this.campoDNI.setText(String.valueOf(tablaCliente.getValueAt(fila,0)));
+            for(int i=0;i<clientes.length;i++){
+                if(String.valueOf(clientes[i].getK_IDENTIFICACION()).equals(
+                String.valueOf(tablaCliente.getValueAt(fila, 0)))){
+                this.campoTipoID.setText(clientes[i].getI_TIPO_IDENTIFICACION());
+                this.campoNombre.setText(clientes[i].getN_NOMBRE());
+                this.campoApellido.setText(clientes[i].getN_APELLIDO());
+                this.campoDireccion.setText(clientes[i].getO_DIRECCION());
+                }
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
-
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton14ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+            }
+        } 
+    }//GEN-LAST:event_tablaClienteMouseClicked
 
     /**
      * @param args the command line arguments
@@ -719,8 +990,6 @@ public class ventana extends javax.swing.JFrame {
     }
     
     public void llenaCuentas() throws SQLException{
-        daoCuentaAhorro dbc2 = new daoCuentaAhorro();
-	cuentaAhorro[] cuentas;
         cuentas = dbc2.getCuenta();
         dataCuenta = new Object[cuentas.length][5];                    
         
@@ -734,8 +1003,7 @@ public class ventana extends javax.swing.JFrame {
     }
     
     public void llenaClientes() throws SQLException{
-        daoCliente dbc = new daoCliente();
-        cliente[] clientes;
+        
         clientes = dbc.get();
         dataCliente = new Object[clientes.length][11];                    
 
@@ -753,70 +1021,99 @@ public class ventana extends javax.swing.JFrame {
             dataCliente[c][10]=clientes[c].getV_INGRESO_MENSUAL();
         }
     }
+    
+    public void llenaMovimientos() throws SQLException{
+        
+        movimientos = dbc3.getMovimiento();
+        dataMovimiento = new Object[movimientos.length][5];                    
+
+        for (int c=0;c<movimientos.length;c++){
+            dataMovimiento[c][0]=movimientos[c].getK_MOVIMIENTO();
+            dataMovimiento[c][1]=movimientos[c].getV_MOVIMIENTO();
+            dataMovimiento[c][2]=movimientos[c].getI_TIPO();
+            dataMovimiento[c][3]=movimientos[c].getF_MOVIMIENTO();
+            dataMovimiento[c][4]=movimientos[c].getK_NUM_CUENTA();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonActivarCuenta;
+    private javax.swing.JButton botonActualizarCliente;
+    private javax.swing.JButton botonBloquearCuenta;
+    private javax.swing.JButton botonConsultarCliente;
+    private javax.swing.JButton botonConsultarEvento;
+    private javax.swing.JButton botonConsultarMovimientos;
+    private javax.swing.JButton botonConsultarTodosMovimientos;
+    private javax.swing.JButton botonDesactivarCuenta;
+    private javax.swing.JButton botonEliminarCliente;
+    private javax.swing.JButton botonFinalizarTransaccion;
+    private javax.swing.JButton botonInsertarCliente;
     private javax.swing.JTextField campoApellido;
+    private javax.swing.JTextField campoCantidad;
+    private javax.swing.JTextField campoCodigoEvento;
     private javax.swing.JTextField campoCorreoElectronico;
+    private javax.swing.JTextField campoCuentaDestino;
+    private javax.swing.JTextField campoCuentaOrigen;
     private javax.swing.JTextField campoDNI;
+    private javax.swing.JTextField campoDescripcionEvento;
     private javax.swing.JTextField campoDireccion;
+    private javax.swing.JTextField campoEstado;
+    private javax.swing.JTextField campoFecha;
+    private javax.swing.JTextField campoFechaEvento;
     private javax.swing.JTextField campoFechaNacimiento;
+    private javax.swing.JTextField campoIdenCliente;
+    private javax.swing.JTextField campoIngresoMensual;
     private javax.swing.JTextField campoNombre;
+    private javax.swing.JTextField campoNumCuenta;
+    private javax.swing.JTextField campoNumCuentaEvento;
     private javax.swing.JTextField campoOcupacion;
+    private javax.swing.JTextField campoSaldo;
     private javax.swing.JTextField campoSexo;
     private javax.swing.JTextField campoTelefono;
+    private javax.swing.JTextField campoTipoEvento;
     private javax.swing.JTextField campoTipoID;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> elegirTransaccion;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
     private javax.swing.JLabel labelApellido;
+    private javax.swing.JLabel labelCantidad;
+    private javax.swing.JLabel labelCodigoEvento;
     private javax.swing.JLabel labelCorreoElectronico;
+    private javax.swing.JLabel labelCuentaDestino;
+    private javax.swing.JLabel labelCuentaOrigen;
     private javax.swing.JLabel labelDNI;
+    private javax.swing.JLabel labelDescripcionEvento;
     private javax.swing.JLabel labelDireccion;
+    private javax.swing.JLabel labelEstado;
+    private javax.swing.JLabel labelFecha;
+    private javax.swing.JLabel labelFechaEvento;
     private javax.swing.JLabel labelFechaNacimiento;
+    private javax.swing.JLabel labelIdenCliente;
     private javax.swing.JLabel labelIngresoMensual;
     private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel labelNumCuenta;
+    private javax.swing.JLabel labelNumCuentaEvento;
     private javax.swing.JLabel labelOcupacion;
+    private javax.swing.JLabel labelSaldo;
     private javax.swing.JLabel labelSexo;
     private javax.swing.JLabel labelTelefono;
+    private javax.swing.JLabel labelTipoEvento;
     private javax.swing.JLabel labelTipoID;
+    private javax.swing.JPanel panelClientes;
+    private javax.swing.JPanel panelCuenta;
+    private javax.swing.JPanel panelEventos;
+    private javax.swing.JPanel panelTransacciones;
     private javax.swing.JTable tablaCliente;
     private javax.swing.JTable tablaCuenta;
+    private javax.swing.JTable tablaEventos;
+    private javax.swing.JTable tablaMovimientos;
     // End of variables declaration//GEN-END:variables
 }
