@@ -1,23 +1,23 @@
 package datos;
 
 public class cliente {
-    int K_IDENTIFICACION;
+    long K_IDENTIFICACION;
     String I_TIPO_IDENTIFICACION;
     String N_NOMBRE;
     String N_APELLIDO;
     String O_DIRECCION;
-    int O_TELEFONO;
+    long O_TELEFONO;
     char I_SEXO;
     String F_NACIMIENTO;
     String O_OCUPACION;
     String O_CORREO_ELECTRONICO;
     float V_INGRESO_MENSUAL;
 
-    public int getK_IDENTIFICACION() {
+    public long getK_IDENTIFICACION() {
         return K_IDENTIFICACION;
     }
 
-    public void setK_IDENTIFICACION(int K_IDENTIFICACION) {
+    public void setK_IDENTIFICACION(long K_IDENTIFICACION) {
         this.K_IDENTIFICACION = K_IDENTIFICACION;
     }
 
@@ -53,11 +53,11 @@ public class cliente {
         this.O_DIRECCION = O_DIRECCION;
     }
 
-    public int getO_TELEFONO() {
+    public long getO_TELEFONO() {
         return O_TELEFONO;
     }
 
-    public void setO_TELEFONO(int O_TELEFONO) {
+    public void setO_TELEFONO(long O_TELEFONO) {
         this.O_TELEFONO = O_TELEFONO;
     }
 
