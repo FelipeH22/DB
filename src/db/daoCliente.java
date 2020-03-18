@@ -52,26 +52,20 @@ public class daoCliente{
     }
 
 
-    public cliente[] get() throws CaException {
-         int registros = 0;
-        try{
-            String strSQL2 = "SELECT count(1) as cont FROM cliente";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
-            PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
-            ResultSet res2 = prepStmt2.executeQuery();
-            ResultSet res = prepStmt2.executeQuery();
-            res.next();
-            registros = res.getInt("cont");
-            res.close();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
-            cliente[] data = new cliente[registros];
-        try{
-        String strSQL = "SELECT K_IDENTIFICACION, I_TIPO_IDENTIFICACION, N_NOMBRE, N_APELLIDO, O_DIRECCION, O_TELEFONO, I_SEXO, F_NACIMIENTO, O_OCUPACION, O_CORREO_ELECTRONICO, V_INGRESO_MENSUAL FROM cliente";
+    public cliente[] get() throws SQLException{
+        int registros = 0;
+        String strSQL2 = "SELECT count(1) as cont FROM cliente";
         Connection conexion = conexionDB.getInstance().tomarConexion();
+        PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
+        ResultSet res2 = prepStmt2.executeQuery();
+        res2.next();
+        registros = res2.getInt("cont");
+        res2.close();
+        cliente[] data = new cliente[registros];
+        String strSQL = "SELECT K_IDENTIFICACION, I_TIPO_IDENTIFICACION, N_NOMBRE, N_APELLIDO, O_DIRECCION, O_TELEFONO, I_SEXO, F_NACIMIENTO, O_OCUPACION, O_CORREO_ELECTRONICO, V_INGRESO_MENSUAL FROM cliente";
         PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
         ResultSet res = prepStmt.executeQuery();
+        res = prepStmt.executeQuery();
         int i = 0;
         while(res.next()){
             data[i] = new cliente();
@@ -80,7 +74,7 @@ public class daoCliente{
             data[i].setN_NOMBRE(res.getString("N_NOMBRE"));
             data[i].setN_APELLIDO(res.getString("N_APELLIDO"));
             data[i].setO_DIRECCION(res.getString("O_DIRECCION"));
-            data[i].setO_TELEFONO(res.getInt("O_TELEFONO"));
+            //data[i].setO_TELEFONO(res.getInt("O_TELEFONO"));
             data[i].setI_SEXO(res.getString("I_SEXO").charAt(0));
             data[i].setF_NACIMIENTO(res.getDate("F_NACIMIENTO").toString());
             data[i].setO_OCUPACION(res.getString("O_OCUPACION"));
@@ -90,9 +84,6 @@ public class daoCliente{
             i++;
         }
         res.close();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
         return data;
     }
 
