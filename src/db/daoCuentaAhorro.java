@@ -48,7 +48,9 @@ public class daoCuentaAhorro{
     public cuentaAhorro[] getCuenta() throws SQLException{
         int registros = 0;
         String strSQL2 = "SELECT count(1) as cont FROM cuenta_ahorro";
-        Connection conexion = conexionDB.getInstance().tomarConexion();
+        Connection conexion;
+        conexionDB.getInstance().liberarConexion();
+        conexion = conexionDB.getInstance().tomarConexion();
         PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
         ResultSet res2 = prepStmt2.executeQuery();
         res2.next();
@@ -62,12 +64,11 @@ public class daoCuentaAhorro{
         int i = 0;
         while(res.next()){
             data2[i] = new cuentaAhorro();
-            data2[i].setK_IDENTIFICACION(res.getLong("K_IDENTIFICACION"));
+            data2[i].setK_NUM_CUENTA(res.getLong("K_NUM_CUENTA"));
             data2[i].setI_ESTADO(res.getString("I_ESTADO"));
             data2[i].setV_SALDO(res.getFloat("V_SALDO"));
             data2[i].setF_APERTURA(res.getDate("F_APERTURA").toString());
             data2[i].setK_IDENTIFICACION(res.getLong("K_IDENTIFICACION"));
-            System.out.println("Registro creado");
             i++;
         }
         res.close();

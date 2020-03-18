@@ -299,9 +299,9 @@ public class ventana extends javax.swing.JFrame {
         });
         jPanel3.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, 140, 30));
         jPanel3.add(jScrollBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 150, -1, -1));
-	//this.llena_cuentas();
-        tablaCuenta.setModel(new javax.swing.table.DefaultTableModel(null,
-           //this.dataCuenta,
+	llenaCuentas();
+        tablaCuenta.setModel(new javax.swing.table.DefaultTableModel(
+           dataCuenta,
             new String [] {
                 "Número cuenta", "Estado","Saldo", "Fecha apertura", "Identificación asociada"
             }
@@ -722,8 +722,8 @@ public class ventana extends javax.swing.JFrame {
         daoCuentaAhorro dbc2 = new daoCuentaAhorro();
 	cuentaAhorro[] cuentas;
         cuentas = dbc2.getCuenta();
-        this.dataCuenta = new Object[cuentas.length][5];                    
-
+        dataCuenta = new Object[cuentas.length][5];                    
+        
         for (int c1=0;c1<cuentas.length;c1++){
             this.dataCuenta[c1][0]=cuentas[c1].getK_NUM_CUENTA();
             this.dataCuenta[c1][1]=cuentas[c1].getI_ESTADO();
@@ -740,17 +740,17 @@ public class ventana extends javax.swing.JFrame {
         dataCliente = new Object[clientes.length][11];                    
 
         for (int c=0;c<clientes.length;c++){
-            this.dataCliente[c][0]=clientes[c].getK_IDENTIFICACION();
-            this.dataCliente[c][1]=clientes[c].getI_TIPO_IDENTIFICACION();
-            this.dataCliente[c][2]=clientes[c].getN_NOMBRE();
-            this.dataCliente[c][3]=clientes[c].getN_APELLIDO();
-            this.dataCliente[c][4]=clientes[c].getO_DIRECCION();
-            this.dataCliente[c][5]=clientes[c].getO_TELEFONO();
-            this.dataCliente[c][6]=clientes[c].getI_SEXO();
-            this.dataCliente[c][7]=clientes[c].getF_NACIMIENTO();
-            this.dataCliente[c][8]=clientes[c].getO_OCUPACION();
-            this.dataCliente[c][9]=clientes[c].getO_CORREO_ELECTRONICO();
-            this.dataCliente[c][10]=clientes[c].getV_INGRESO_MENSUAL();
+            dataCliente[c][0]=clientes[c].getK_IDENTIFICACION();
+            dataCliente[c][1]=clientes[c].getI_TIPO_IDENTIFICACION();
+            dataCliente[c][2]=clientes[c].getN_NOMBRE();
+            dataCliente[c][3]=clientes[c].getN_APELLIDO();
+            dataCliente[c][4]=clientes[c].getO_DIRECCION();
+            dataCliente[c][5]=clientes[c].getO_TELEFONO();
+            dataCliente[c][6]=clientes[c].getI_SEXO();
+            dataCliente[c][7]=clientes[c].getF_NACIMIENTO();
+            dataCliente[c][8]=clientes[c].getO_OCUPACION();
+            dataCliente[c][9]=clientes[c].getO_CORREO_ELECTRONICO();
+            dataCliente[c][10]=clientes[c].getV_INGRESO_MENSUAL();
         }
     }
 

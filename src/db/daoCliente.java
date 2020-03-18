@@ -7,14 +7,13 @@ import datos.*;
 import java.sql.Date;
 
 public class daoCliente{
-
+    Connection conexion = conexionDB.getInstance().tomarConexion();
     cliente cliente = new cliente();
 
     public void insertar() throws CaException {
       try {
 
         String strSQL = "INSERT INTO cliente (K_IDENTIFICACION, I_TIPO_IDENTIFICACION, N_NOMBRE, N_APELLIDO, O_DIRECCION, O_TELEFONO, I_SEXO, F_NACIMIENTO, O_OCUPACION, O_CORREO_ELECTRONICO, V_INGRESO_MENSUAL) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-        Connection conexion = conexionDB.getInstance().tomarConexion();
         PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
         prepStmt.setLong(1,cliente.getK_IDENTIFICACION()); 
         prepStmt.setString(2, cliente.getI_TIPO_IDENTIFICACION()); 
@@ -40,7 +39,6 @@ public class daoCliente{
     public void eliminar() {
         try{
             String strSQL = "DELETE FROM cliente WHERE K_IDENTIFICACION = ?";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setLong(1,cliente.getK_IDENTIFICACION()); 
             prepStmt.executeUpdate();
@@ -55,7 +53,6 @@ public class daoCliente{
     public cliente[] get() throws SQLException{
         int registros = 0;
         String strSQL2 = "SELECT count(1) as cont FROM cliente";
-        Connection conexion = conexionDB.getInstance().tomarConexion();
         PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
         ResultSet res2 = prepStmt2.executeQuery();
         res2.next();
@@ -90,7 +87,6 @@ public class daoCliente{
     public void actualizar() throws CaException {
         try {
             String strSQL = "UPDATE cliente SET I_TIPO_IDENTIFICACION=?, N_NOMBRE=?, N_APELLIDO=?, O_DIRECCION=?, O_TELEFONO=?, I_SEXO=?, F_NACIMIENTO=?, O_OCUPACION=?, O_CORREO_ELECTRONICO=?, V_INGRESO_MENSUAL=? WHERE K_IDENTIFICACION = ?";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
             prepStmt.setString(1, cliente.getI_TIPO_IDENTIFICACION()); 
             prepStmt.setString(2, cliente.getN_NOMBRE()); 
@@ -113,5 +109,6 @@ public class daoCliente{
         }
         
     }
+
     
 }
