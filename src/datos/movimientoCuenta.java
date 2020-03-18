@@ -1,17 +1,17 @@
 package datos;
 
-public class movimiento_cuenta {
-    int K_MOVIMIENTO;
+public class movimientoCuenta {
+    long K_MOVIMIENTO;
     float V_MOVIMIENTO;
     String I_TIPO;
     String F_MOVIMIENTO;
-    int K_NUM_CUENTA;
+    long K_NUM_CUENTA;
 
-    public int getK_MOVIMIENTO() {
+    public long getK_MOVIMIENTO() {
         return K_MOVIMIENTO;
     }
 
-    public void setK_MOVIMIENTO(int K_MOVIMIENTO) {
+    public void setK_MOVIMIENTO(long K_MOVIMIENTO) {
         this.K_MOVIMIENTO = K_MOVIMIENTO;
     }
 
@@ -39,11 +39,11 @@ public class movimiento_cuenta {
         this.F_MOVIMIENTO = F_MOVIMIENTO;
     }
 
-    public int getK_NUM_CUENTA() {
+    public long getK_NUM_CUENTA() {
         return K_NUM_CUENTA;
     }
 
-    public void setK_NUM_CUENTA(int K_NUM_CUENTA) {
+    public void setK_NUM_CUENTA(long K_NUM_CUENTA) {
         this.K_NUM_CUENTA = K_NUM_CUENTA;
     }
     

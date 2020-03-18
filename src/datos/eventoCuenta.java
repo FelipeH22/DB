@@ -1,17 +1,17 @@
 package datos;
 
-public class evento_cuenta {
-    int K_EVENTO;
+public class eventoCuenta {
+    long K_EVENTO;
     String I_TIPO_EVENTO;
     String F_EVENTO;
     String O_DESCRIPCION;
-    int K_NUM_CUENTA;
+    long K_NUM_CUENTA;
 
-    public int getK_EVENTO() {
+    public long getK_EVENTO() {
         return K_EVENTO;
     }
 
-    public void setK_EVENTO(int K_EVENTO) {
+    public void setK_EVENTO(long K_EVENTO) {
         this.K_EVENTO = K_EVENTO;
     }
 
@@ -39,11 +39,11 @@ public class evento_cuenta {
         this.O_DESCRIPCION = O_DESCRIPCION;
     }
 
-    public int getK_NUM_CUENTA() {
+    public long getK_NUM_CUENTA() {
         return K_NUM_CUENTA;
     }
 
-    public void setK_NUM_CUENTA(int K_NUM_CUENTA) {
+    public void setK_NUM_CUENTA(long K_NUM_CUENTA) {
         this.K_NUM_CUENTA = K_NUM_CUENTA;
     }
     

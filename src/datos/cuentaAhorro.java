@@ -1,17 +1,17 @@
 package datos;
 
-public class cuenta_ahorro {
-    int K_NUM_CUENTA;
+public class cuentaAhorro {
+    long K_NUM_CUENTA;
     String I_ESTADO;
     float V_SALDO;
     String F_APERTURA;
-    int K_IDENTIFICACION;
+    long K_IDENTIFICACION;
 
-    public int getK_NUM_CUENTA() {
+    public long getK_NUM_CUENTA() {
         return K_NUM_CUENTA;
     }
 
-    public void setK_NUM_CUENTA(int K_NUM_CUENTA) {
+    public void setK_NUM_CUENTA(long K_NUM_CUENTA) {
         this.K_NUM_CUENTA = K_NUM_CUENTA;
     }
 
@@ -39,11 +39,11 @@ public class cuenta_ahorro {
         this.F_APERTURA = F_APERTURA;
     }
 
-    public int getK_IDENTIFICACION() {
+    public long getK_IDENTIFICACION() {
         return K_IDENTIFICACION;
     }
 
-    public void setK_IDENTIFICACION(int K_IDENTIFICACION) {
+    public void setK_IDENTIFICACION(long K_IDENTIFICACION) {
         this.K_IDENTIFICACION = K_IDENTIFICACION;
     }
     

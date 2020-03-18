@@ -31,7 +31,7 @@ public class daoCliente{
         prepStmt.close();
         conexionDB.getInstance().commit();
       } catch (SQLException e) {
-           throw new CaException( "MunicipioDAO", "No pudo crear el municipio"+ e.getMessage());
+           throw new CaException( "Cliente", "No se pudo crear el registro"+ e.getMessage());
       }  finally {
          conexionDB.getInstance().liberarConexion();
       }
