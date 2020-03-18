@@ -9,7 +9,10 @@ import datos.*;
  */
 public class ventana extends javax.swing.JFrame {
     
+    Object[][] dataCliente;
     Object[][] dataCuenta;
+    Object[][] dataMovimiento;
+    Object[][] dataEvento;
     /**
      * Creates new form ventana
      */
@@ -27,8 +30,6 @@ public class ventana extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() throws SQLException{
-	daoCliente dbc = new daoCliente();
-        cliente[] clientes;
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -247,26 +248,11 @@ public class ventana extends javax.swing.JFrame {
 
         jButton3.setText("Eliminar");
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, -1, -1));
-
-	clientes = dbc.get();
-        Object [][] data = new Object[clientes.length][11];                    
-
-        for (int c=0;c<clientes.length;c++){
-            data[c][0]=clientes[c].getK_IDENTIFICACION();
-            data[c][1]=clientes[c].getI_TIPO_IDENTIFICACION();
-            data[c][2]=clientes[c].getN_NOMBRE();
-            data[c][3]=clientes[c].getN_APELLIDO();
-            data[c][4]=clientes[c].getO_DIRECCION();
-            data[c][5]=clientes[c].getO_TELEFONO();
-            data[c][6]=clientes[c].getI_SEXO();
-            data[c][7]=clientes[c].getF_NACIMIENTO();
-            data[c][8]=clientes[c].getO_OCUPACION();
-            data[c][9]=clientes[c].getO_CORREO_ELECTRONICO();
-            data[c][10]=clientes[c].getV_INGRESO_MENSUAL();
-        }
+	
+	this.llenaClientes();
 
         tablaCliente.setModel(new javax.swing.table.DefaultTableModel(
-           data,
+           dataCliente,
             new String [] {
                 "DNI", "Tipo de indentificación", "Nombre", "Apellido", "Dirección", "Teléfono", "Sexo", "Fecha nacimiento", "Ocupación", "Correo electrónico", "Ingresos mensuales"
             }
@@ -732,7 +718,7 @@ public class ventana extends javax.swing.JFrame {
         });
     }
     
-    public void llena_cuentas() throws SQLException{
+    public void llenaCuentas() throws SQLException{
         daoCuentaAhorro dbc2 = new daoCuentaAhorro();
 	cuentaAhorro[] cuentas;
         cuentas = dbc2.getCuenta();
@@ -744,6 +730,27 @@ public class ventana extends javax.swing.JFrame {
             this.dataCuenta[c1][2]=cuentas[c1].getV_SALDO();
             this.dataCuenta[c1][3]=cuentas[c1].getF_APERTURA();
             this.dataCuenta[c1][4]=cuentas[c1].getK_IDENTIFICACION();
+        }
+    }
+    
+    public void llenaClientes() throws SQLException{
+        daoCliente dbc = new daoCliente();
+        cliente[] clientes;
+        clientes = dbc.get();
+        dataCliente = new Object[clientes.length][11];                    
+
+        for (int c=0;c<clientes.length;c++){
+            this.dataCliente[c][0]=clientes[c].getK_IDENTIFICACION();
+            this.dataCliente[c][1]=clientes[c].getI_TIPO_IDENTIFICACION();
+            this.dataCliente[c][2]=clientes[c].getN_NOMBRE();
+            this.dataCliente[c][3]=clientes[c].getN_APELLIDO();
+            this.dataCliente[c][4]=clientes[c].getO_DIRECCION();
+            this.dataCliente[c][5]=clientes[c].getO_TELEFONO();
+            this.dataCliente[c][6]=clientes[c].getI_SEXO();
+            this.dataCliente[c][7]=clientes[c].getF_NACIMIENTO();
+            this.dataCliente[c][8]=clientes[c].getO_OCUPACION();
+            this.dataCliente[c][9]=clientes[c].getO_CORREO_ELECTRONICO();
+            this.dataCliente[c][10]=clientes[c].getV_INGRESO_MENSUAL();
         }
     }
 
