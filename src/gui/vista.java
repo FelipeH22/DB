@@ -28,6 +28,7 @@ public class vista extends javax.swing.JFrame {
     Object[][] dataEvento;
     /**
      * Creates new form ventana
+     * @throws java.sql.SQLException
      */
     public vista() throws SQLException {
         initComponents();
@@ -76,7 +77,7 @@ public class vista extends javax.swing.JFrame {
         labelIngresoMensual = new javax.swing.JLabel();
         campoIngresoMensual = new javax.swing.JTextField();
         botonActualizarCliente = new javax.swing.JButton();
-        botonConfirmarCliente = new javax.swing.JButton();
+        botonConfirmar = new javax.swing.JButton();
         panelCuenta = new javax.swing.JPanel();
         labelNumCuenta = new javax.swing.JLabel();
         campoNumCuenta = new javax.swing.JTextField();
@@ -151,11 +152,7 @@ public class vista extends javax.swing.JFrame {
         panelClientes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         campoFechaNacimiento.setEnabled(false);
-        campoFechaNacimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoFechaNacimientoActionPerformed(evt);
-            }
-        });
+        campoFechaNacimiento.addActionListener(this::campoFechaNacimientoActionPerformed);
         panelClientes.add(campoFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 330, 140, 30));
 
         labelOcupacion.setText("Ocupación");
@@ -165,21 +162,11 @@ public class vista extends javax.swing.JFrame {
         panelClientes.add(labelCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 400, 60, -1));
 
         campoOcupacion.setEnabled(false);
-        campoOcupacion.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoOcupacionActionPerformed(evt);
-            }
-        });
+        campoOcupacion.addActionListener(this::campoOcupacionActionPerformed);
         panelClientes.add(campoOcupacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, 30));
 
         campoCorreoElectronico.setEnabled(false);
-        campoCorreoElectronico.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoCorreoElectronicoActionPerformed(evt);
-            }
-        });
+        campoCorreoElectronico.addActionListener(this::campoCorreoElectronicoActionPerformed);
         panelClientes.add(campoCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 390, 140, 30));
 
         labelFechaNacimiento.setText("Fecha nacimiento");
@@ -189,102 +176,61 @@ public class vista extends javax.swing.JFrame {
         panelClientes.add(labelSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, -1, -1));
 
         campoSexo.setEnabled(false);
-        /*campoSexo.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoSexoActionPerformed(evt);
-            }
-        });*/
+        campoSexo.addActionListener(this::campoSexoActionPerformed);
         panelClientes.add(campoSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 140, 30));
 
         labelDNI.setText("DNI");
         panelClientes.add(labelDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
 
         campoDNI.setEnabled(false);
-        campoDNI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDNIActionPerformed(evt);
-            }
-        });
+        campoDNI.addActionListener(this::campoDNIActionPerformed);
         panelClientes.add(campoDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, 30));
 
         labelTipoID.setText("Tipo ID");
         panelClientes.add(labelTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, -1, -1));
 
         campoTipoID.setEnabled(false);
-        campoTipoID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTipoIDActionPerformed(evt);
-            }
-        });
+        campoTipoID.addActionListener(this::campoTipoIDActionPerformed);
         panelClientes.add(campoTipoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 140, 30));
 
         labelNombre.setText("Nombre");
         panelClientes.add(labelNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
 
         campoNombre.setEnabled(false);
-        campoNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoNombreActionPerformed(evt);
-            }
-        });
+        campoNombre.addActionListener(this::campoNombreActionPerformed);
         panelClientes.add(campoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 140, 30));
 
         labelApellido.setText("Apellido");
         panelClientes.add(labelApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 280, -1, -1));
 
         campoApellido.setEnabled(false);
-        campoApellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoApellidoActionPerformed(evt);
-            }
-        });
+        campoApellido.addActionListener(this::campoApellidoActionPerformed);
         panelClientes.add(campoApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 140, 30));
 
         labelDireccion.setText("Dirección");
         panelClientes.add(labelDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 30, -1));
 
         campoDireccion.setEnabled(false);
-        campoDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDireccionActionPerformed(evt);
-            }
-        });
+        campoDireccion.addActionListener(this::campoDireccionActionPerformed);
         panelClientes.add(campoDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, 30));
 
         labelTelefono.setText("Teléfono");
         panelClientes.add(labelTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, -1, -1));
 
         campoTelefono.setEnabled(false);
-        campoTelefono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoTelefonoActionPerformed(evt);
-            }
-        });
+        campoTelefono.addActionListener(this::campoTelefonoActionPerformed);
         panelClientes.add(campoTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, 140, 30));
 
         botonConsultarCliente.setText("Consultar ");
-        botonConsultarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConsultarClienteActionPerformed(evt);
-            }
-        });
+        botonConsultarCliente.addActionListener(this::botonConsultarClienteActionPerformed);
         panelClientes.add(botonConsultarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 390, -1, -1));
 
         botonInsertarCliente.setText("Insertar");
-        botonInsertarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonInsertarClienteActionPerformed(evt);
-            }
-        });
+        botonInsertarCliente.addActionListener(this::botonInsertarClienteActionPerformed);
         panelClientes.add(botonInsertarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 390, -1, -1));
 
         botonEliminarCliente.setText("Eliminar");
-        botonEliminarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEliminarClienteActionPerformed(evt);
-            }
-        });
+        botonEliminarCliente.addActionListener(this::botonEliminarClienteActionPerformed);
         panelClientes.add(botonEliminarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 390, -1, -1));
 
         this.llenaClientes();
@@ -296,6 +242,7 @@ public class vista extends javax.swing.JFrame {
         ));
         tablaCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaClienteMouseClicked(evt);
             }
@@ -308,34 +255,24 @@ public class vista extends javax.swing.JFrame {
         panelClientes.add(labelIngresoMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 60, -1));
 
         campoIngresoMensual.setEnabled(false);
-        campoIngresoMensual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoIngresoMensualActionPerformed(evt);
-            }
-        });
+        campoIngresoMensual.addActionListener(this::campoIngresoMensualActionPerformed);
         panelClientes.add(campoIngresoMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 120, 30));
 
         botonActualizarCliente.setText("Modificar");
-        botonActualizarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonActualizarClienteActionPerformed(evt);
-            }
-        });
+        botonActualizarCliente.addActionListener(this::botonActualizarClienteActionPerformed);
         panelClientes.add(botonActualizarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 420, 90, -1));
 
-        botonConfirmarCliente.setText("Confirmar");
-        botonConfirmarCliente.setEnabled(false);
-        botonConfirmarCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                try {
-                    System.out.println("Realizando operación");
-                    botonConfirmarClienteActionPerformed(evt);
-                } catch (SQLException ex) {
-                    Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        botonConfirmar.setText("Confirmar");
+        botonConfirmar.setEnabled(false);
+        botonConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
+            try {
+                System.out.println("Realizando operación");
+                botonConfirmarActionPerformed(evt);
+            } catch (SQLException ex) {
+                Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        panelClientes.add(botonConfirmarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 420, 140, -1));
+        panelClientes.add(botonConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 420, 140, -1));
 
         jTabbedPane1.addTab("Clientes", panelClientes);
 
@@ -345,22 +282,14 @@ public class vista extends javax.swing.JFrame {
         panelCuenta.add(labelNumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         campoNumCuenta.setEnabled(false);
-        campoNumCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoNumCuentaActionPerformed(evt);
-            }
-        });
+        campoNumCuenta.addActionListener(this::campoNumCuentaActionPerformed);
         panelCuenta.add(campoNumCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 270, 140, 30));
 
         labelEstado.setText("Estado");
         panelCuenta.add(labelEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 280, -1, -1));
 
         campoEstado.setEnabled(false);
-        campoEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoEstadoActionPerformed(evt);
-            }
-        });
+        campoEstado.addActionListener(this::campoEstadoActionPerformed);
         panelCuenta.add(campoEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 140, 30));
 
         this.llenaCuentas();
@@ -374,11 +303,13 @@ public class vista extends javax.swing.JFrame {
                 java.lang.Double.class, java.lang.Object.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
             };
 
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
         tablaCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaCuentaMouseClicked(evt);
             }
@@ -388,11 +319,7 @@ public class vista extends javax.swing.JFrame {
         panelCuenta.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 230));
 
         jButton4.setText("Consultar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        jButton4.addActionListener(this::jButton4ActionPerformed);
         panelCuenta.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
 
         labelSaldo.setText("Saldo");
@@ -408,19 +335,11 @@ public class vista extends javax.swing.JFrame {
         panelCuenta.add(campoFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 90, 30));
 
         jButton8.setText("Insertar");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
+        jButton8.addActionListener(this::jButton8ActionPerformed);
         panelCuenta.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
 
         jButton9.setText("Actualizar");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
+        jButton9.addActionListener(this::jButton9ActionPerformed);
         panelCuenta.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, -1, -1));
 
         labelIdenCliente.setText("Documento asociado");
@@ -444,30 +363,14 @@ public class vista extends javax.swing.JFrame {
         campoCuentaOrigen.setEnabled(false);
 
         botonFinalizarTransaccion.setText("Finalizar transacción");
-        botonFinalizarTransaccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonFinalizarTransaccionActionPerformed(evt);
-            }
-        });
+        botonFinalizarTransaccion.addActionListener(this::botonFinalizarTransaccionActionPerformed);
 
         botonConsultarMovimientos.setText("Consultar movimientos de la cuenta");
-        botonConsultarMovimientos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConsultarMovimientosActionPerformed(evt);
-            }
-        });
+        botonConsultarMovimientos.addActionListener(this::botonConsultarMovimientosActionPerformed);
 
         elegirTransaccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo movimiento", "Retirar", "Transferencia", " " }));
-        elegirTransaccion.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                elegirTransaccionItemStateChanged(evt);
-            }
-        });
-        elegirTransaccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                elegirTransaccionActionPerformed(evt);
-            }
-        });
+        elegirTransaccion.addItemListener(this::elegirTransaccionItemStateChanged);
+        elegirTransaccion.addActionListener(this::elegirTransaccionActionPerformed);
 
         this.llenaMovimientos();
         tablaMovimientos.setModel(new javax.swing.table.DefaultTableModel(
@@ -554,6 +457,7 @@ public class vista extends javax.swing.JFrame {
             }
         ));
         tablaEventos.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaEventosMouseClicked(evt);
             }
@@ -563,25 +467,13 @@ public class vista extends javax.swing.JFrame {
         labelNumCuentaEvento.setText("Número de cuenta");
 
         campoNumCuentaEvento.setEnabled(false);
-        campoNumCuentaEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoNumCuentaEventoActionPerformed(evt);
-            }
-        });
+        campoNumCuentaEvento.addActionListener(this::campoNumCuentaEventoActionPerformed);
 
         botonConsultarEvento.setText("Consultar");
-        botonConsultarEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonConsultarEventoActionPerformed(evt);
-            }
-        });
+        botonConsultarEvento.addActionListener(this::botonConsultarEventoActionPerformed);
 
         botonActivarCuenta.setText("Activar cuenta");
-        botonActivarCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonActivarCuentaActionPerformed(evt);
-            }
-        });
+        botonActivarCuenta.addActionListener(this::botonActivarCuentaActionPerformed);
 
         labelCodigoEvento.setText("Código evento");
 
@@ -594,29 +486,17 @@ public class vista extends javax.swing.JFrame {
         labelFechaEvento.setText("Fecha evento");
 
         campoFechaEvento.setEnabled(false);
-        campoFechaEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoFechaEventoActionPerformed(evt);
-            }
-        });
+        campoFechaEvento.addActionListener(this::campoFechaEventoActionPerformed);
 
         labelDescripcionEvento.setText("Descripción evento");
 
         campoDescripcionEvento.setEnabled(false);
 
         botonDesactivarCuenta.setText("Desactivar cuenta");
-        botonDesactivarCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonDesactivarCuentaActionPerformed(evt);
-            }
-        });
+        botonDesactivarCuenta.addActionListener(this::botonDesactivarCuentaActionPerformed);
 
         botonBloquearCuenta.setText("Bloquear cuenta");
-        botonBloquearCuenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBloquearCuentaActionPerformed(evt);
-            }
-        });
+        botonBloquearCuenta.addActionListener(this::botonBloquearCuentaActionPerformed);
 
         javax.swing.GroupLayout panelEventosLayout = new javax.swing.GroupLayout(panelEventos);
         panelEventos.setLayout(panelEventosLayout);
@@ -741,14 +621,14 @@ public class vista extends javax.swing.JFrame {
         this.campoOcupacion.setEnabled(true);
         this.campoCorreoElectronico.setEnabled(true);
         this.campoIngresoMensual.setEnabled(true);
-        this.botonConfirmarCliente.setEnabled(true);
+        this.botonConfirmar.setEnabled(true);
     }                                                    
 
     private void botonConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         operacionCliente=2;
         this.campoDNI.setEnabled(true);
         this.campoCorreoElectronico.setEnabled(true);
-        this.botonConfirmarCliente.setEnabled(true);
+        this.botonConfirmar.setEnabled(true);
     }                                                     
 
     private void campoTelefonoActionPerformed(java.awt.event.ActionEvent evt) {                                              
@@ -838,7 +718,7 @@ public class vista extends javax.swing.JFrame {
 
     private void botonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         operacionCliente=3;
-        this.campoDNI.setEnabled(true);
+        this.campoDNI.setEnabled(false);
         this.campoTipoID.setEnabled(true);
         this.campoNombre.setEnabled(true);
         this.campoApellido.setEnabled(true);
@@ -849,6 +729,7 @@ public class vista extends javax.swing.JFrame {
         this.campoOcupacion.setEnabled(true);
         this.campoCorreoElectronico.setEnabled(true);
         this.campoIngresoMensual.setEnabled(true);
+        this.botonConfirmar.setEnabled(true);
     }                                                      
 
     private void elegirTransaccionItemStateChanged(java.awt.event.ItemEvent evt) {                                                   
@@ -894,56 +775,103 @@ public class vista extends javax.swing.JFrame {
         int columna = tablaCliente.columnAtPoint(evt.getPoint());
         if ((fila > -1) && (columna > -1)){
             this.campoDNI.setText(String.valueOf(tablaCliente.getValueAt(fila,0)));
-            for(int i=0;i<clientes.length;i++){
-                if(String.valueOf(clientes[i].getK_IDENTIFICACION()).equals(
-                String.valueOf(tablaCliente.getValueAt(fila, 0)))){
-                this.campoTipoID.setText(clientes[i].getI_TIPO_IDENTIFICACION());
-                this.campoNombre.setText(clientes[i].getN_NOMBRE());
-                this.campoApellido.setText(clientes[i].getN_APELLIDO());
-                this.campoDireccion.setText(clientes[i].getO_DIRECCION());
-                this.campoTelefono.setText(String.valueOf(clientes[i].getO_TELEFONO()));
-                this.campoSexo.setText(String.valueOf(clientes[i].getI_SEXO()));
-                this.campoFechaNacimiento.setText(clientes[i].getF_NACIMIENTO());
-                this.campoOcupacion.setText(clientes[i].getO_OCUPACION());
-                this.campoCorreoElectronico.setText(clientes[i].getO_CORREO_ELECTRONICO());
-                this.campoIngresoMensual.setText(String.valueOf(clientes[i].getV_INGRESO_MENSUAL()));
+            for (cliente cliente : clientes) {
+                if (String.valueOf(cliente.getK_IDENTIFICACION()).equals(String.valueOf(tablaCliente.getValueAt(fila, 0)))) {
+                    this.campoTipoID.setText(cliente.getI_TIPO_IDENTIFICACION());
+                    this.campoNombre.setText(cliente.getN_NOMBRE());
+                    this.campoApellido.setText(cliente.getN_APELLIDO());
+                    this.campoDireccion.setText(cliente.getO_DIRECCION());
+                    this.campoTelefono.setText(String.valueOf(cliente.getO_TELEFONO()));
+                    this.campoSexo.setText(String.valueOf(cliente.getI_SEXO()));
+                    this.campoFechaNacimiento.setText(cliente.getF_NACIMIENTO());
+                    this.campoOcupacion.setText(cliente.getO_OCUPACION());
+                    this.campoCorreoElectronico.setText(cliente.getO_CORREO_ELECTRONICO());
+                    this.campoIngresoMensual.setText(String.valueOf(cliente.getV_INGRESO_MENSUAL()));
                 }
-
             }
         } 
     }                                         
 
     private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         operacionCliente = 4;
-        this.botonConfirmarCliente.setEnabled(true);
+        this.botonConfirmar.setEnabled(true);
     }                                                    
 
-    private void botonConfirmarClienteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException{                                               
-        if(this.operacionCliente==1){
-            cliente c = new cliente();
-            c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
-            c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
-            c.setN_NOMBRE(this.campoNombre.getText());
-            c.setN_APELLIDO(this.campoApellido.getText());
-            c.setO_DIRECCION(this.campoDireccion.getText());
-            c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
-            c.setI_SEXO(this.campoSexo.getText().charAt(0));
-            c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
-            c.setO_OCUPACION(this.campoOcupacion.getText());
-            c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
-            c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
-            dbc.insertar(c);
-            Object[] newRow={c.getK_IDENTIFICACION(),c.getI_TIPO_IDENTIFICACION(),c.getN_NOMBRE(),c.getN_APELLIDO(),c.getO_DIRECCION(),c.getO_TELEFONO(),c.getI_SEXO(),c.getF_NACIMIENTO(),c.getO_OCUPACION(),c.getO_CORREO_ELECTRONICO(),c.getV_INGRESO_MENSUAL()};
-            DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
-            model.addRow(newRow);               
-            JOptionPane.showMessageDialog(null, "Cliente agregado");
-        }else if (this.operacionCliente==4){
-            cliente c = new cliente();
-            c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText(),10));
-            dbc.eliminar(c);
-            ((DefaultTableModel)tablaCliente.getModel()).removeRow(fila);
-            JOptionPane.showMessageDialog(null, "Contacto borrado");
+    private void botonConfirmarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException{                                               
+        switch (this.operacionCliente) {
+            case 1:
+                {
+                    cliente c = new cliente();
+                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
+                    c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
+                    c.setN_NOMBRE(this.campoNombre.getText());
+                    c.setN_APELLIDO(this.campoApellido.getText());
+                    c.setO_DIRECCION(this.campoDireccion.getText());
+                    c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
+                    c.setI_SEXO(this.campoSexo.getText().charAt(0));
+                    c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
+                    c.setO_OCUPACION(this.campoOcupacion.getText());
+                    c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
+                    c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
+                    dbc.insertar(c);
+                    Object[] newRow={c.getK_IDENTIFICACION(),c.getI_TIPO_IDENTIFICACION(),c.getN_NOMBRE(),c.getN_APELLIDO(),c.getO_DIRECCION(),c.getO_TELEFONO(),c.getI_SEXO(),c.getF_NACIMIENTO(),c.getO_OCUPACION(),c.getO_CORREO_ELECTRONICO(),c.getV_INGRESO_MENSUAL()};
+                    DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
+                    model.addRow(newRow);
+                    JOptionPane.showMessageDialog(null, "Cliente agregado");
+                    break;
+                }
+            case 4:
+                {
+                    cliente c = new cliente();
+                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText(),10));
+                    dbc.eliminar(c);
+                    ((DefaultTableModel)tablaCliente.getModel()).removeRow(fila);
+                    JOptionPane.showMessageDialog(null, "Contacto borrado");
+                    break;
+                }
+            case 3:
+                cliente c = new cliente();
+                c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
+                c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
+                c.setN_NOMBRE(this.campoNombre.getText());
+                c.setN_APELLIDO(this.campoApellido.getText());
+                c.setO_DIRECCION(this.campoDireccion.getText());
+                c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
+                c.setI_SEXO(this.campoSexo.getText().charAt(0));
+                c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
+                c.setO_OCUPACION(this.campoOcupacion.getText());
+                c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
+                c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
+                dbc.actualizar(c);
+                DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
+                model.setValueAt(c.getK_IDENTIFICACION(), fila, 0);
+                model.setValueAt(c.getI_TIPO_IDENTIFICACION(), fila, 1);
+                model.setValueAt(c.getN_NOMBRE(), fila, 2);
+                model.setValueAt(c.getN_APELLIDO(), fila, 3);
+                model.setValueAt(c.getO_DIRECCION(), fila, 4);
+                model.setValueAt(c.getO_TELEFONO(), fila, 5);
+                model.setValueAt(c.getI_SEXO(), fila, 6);
+                model.setValueAt(c.getF_NACIMIENTO(), fila, 7);
+                model.setValueAt(c.getO_OCUPACION(), fila, 8);
+                model.setValueAt(c.getO_CORREO_ELECTRONICO(), fila, 9);
+                model.setValueAt(c.getV_INGRESO_MENSUAL(), fila, 10);
+                JOptionPane.showMessageDialog(null, "Cliente Actualizado");
+                break;
+            default:
+                break;
         }
+        this.campoDNI.setEnabled(false);
+        this.campoTipoID.setEnabled(false);
+        this.campoNombre.setEnabled(false);
+        this.campoApellido.setEnabled(false);
+        this.campoDireccion.setEnabled(false);
+        this.campoTelefono.setEnabled(false);
+        this.campoSexo.setEnabled(false);
+        this.campoFechaNacimiento.setEnabled(false);
+        this.campoOcupacion.setEnabled(false);
+        this.campoCorreoElectronico.setEnabled(false);
+        this.campoIngresoMensual.setEnabled(false);
+        this.botonConfirmar.setEnabled(false);
     }                                              
     
     public void llenaCuentas() throws SQLException{
@@ -1011,7 +939,7 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JButton botonActivarCuenta;
     private javax.swing.JButton botonActualizarCliente;
     private javax.swing.JButton botonBloquearCuenta;
-    private javax.swing.JButton botonConfirmarCliente;
+    private javax.swing.JButton botonConfirmar;
     private javax.swing.JButton botonConsultarCliente;
     private javax.swing.JButton botonConsultarEvento;
     private javax.swing.JButton botonConsultarMovimientos;

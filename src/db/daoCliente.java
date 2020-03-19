@@ -88,7 +88,7 @@ public class daoCliente{
             prepStmt.setString(8,c.getO_DIRECCION());
             prepStmt.setString(9,c.getO_CORREO_ELECTRONICO());
             prepStmt.setFloat(10,c.getV_INGRESO_MENSUAL()); 
-            prepStmt.setFloat(11,c.getK_IDENTIFICACION()); 
+            prepStmt.setLong(11,c.getK_IDENTIFICACION()); 
             prepStmt.executeUpdate();
             prepStmt.close();
             conexionDB.getInstance().commit();
