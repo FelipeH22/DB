@@ -8,45 +8,36 @@ import java.sql.Date;
 
 public class daoCliente{
     Connection conexion = conexionDB.getInstance().tomarConexion();
-    cliente cliente = new cliente();
+    //cliente cliente = new cliente();
 
-    public void insertar() throws CaException {
-      try {
+    public void insertar(cliente c) throws SQLException {        
+            String strSQL = "INSERT INTO cliente (K_IDENTIFICACION, I_TIPO_IDENTIFICACION, N_NOMBRE, N_APELLIDO, O_DIRECCION, O_TELEFONO, I_SEXO, F_NACIMIENTO, O_OCUPACION, O_CORREO_ELECTRONICO, V_INGRESO_MENSUAL) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+            prepStmt.setLong(1,c.getK_IDENTIFICACION()); 
+            prepStmt.setString(2, c.getI_TIPO_IDENTIFICACION()); 
+            prepStmt.setString(3, c.getN_NOMBRE()); 
+            prepStmt.setString(4, c.getN_APELLIDO()); 
+            prepStmt.setString(5, c.getO_DIRECCION()); 
+            prepStmt.setLong(6,c.getO_TELEFONO()); 
+            prepStmt.setString(7,String.valueOf(c.getI_SEXO())); 
+            prepStmt.setDate(8,Date.valueOf(c.getF_NACIMIENTO())); 
+            prepStmt.setString(9,c.getO_DIRECCION());
+            prepStmt.setString(10,c.getO_CORREO_ELECTRONICO());
+            prepStmt.setFloat(11,c.getV_INGRESO_MENSUAL()); 
+            prepStmt.executeUpdate();
+            System.out.println("Se creó el registro en la BD");
+            prepStmt.close();            
+            conexionDB.getInstance().commit();
+            conexionDB.getInstance().liberarConexion();
+    }
 
-        String strSQL = "INSERT INTO cliente (K_IDENTIFICACION, I_TIPO_IDENTIFICACION, N_NOMBRE, N_APELLIDO, O_DIRECCION, O_TELEFONO, I_SEXO, F_NACIMIENTO, O_OCUPACION, O_CORREO_ELECTRONICO, V_INGRESO_MENSUAL) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    public void eliminar(cliente c) throws SQLException {
+        String strSQL = "DELETE FROM cliente WHERE K_IDENTIFICACION = ?";
         PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-        prepStmt.setLong(1,cliente.getK_IDENTIFICACION()); 
-        prepStmt.setString(2, cliente.getI_TIPO_IDENTIFICACION()); 
-        prepStmt.setString(3, cliente.getN_NOMBRE()); 
-        prepStmt.setString(4, cliente.getN_APELLIDO()); 
-        prepStmt.setString(5, cliente.getO_DIRECCION()); 
-        prepStmt.setLong(6,cliente.getO_TELEFONO()); 
-        prepStmt.setString(7,String.valueOf(cliente.getI_SEXO())); 
-        prepStmt.setDate(8,Date.valueOf(cliente.getF_NACIMIENTO())); 
-        prepStmt.setString(9,cliente.getO_DIRECCION());
-        prepStmt.setString(10,cliente.getO_CORREO_ELECTRONICO());
-        prepStmt.setFloat(11,cliente.getV_INGRESO_MENSUAL()); 
+        prepStmt.setLong(1,c.getK_IDENTIFICACION()); 
         prepStmt.executeUpdate();
         prepStmt.close();
         conexionDB.getInstance().commit();
-      } catch (SQLException e) {
-           throw new CaException( "Cliente", "No se pudo crear el registro"+ e.getMessage());
-      }  finally {
-         conexionDB.getInstance().liberarConexion();
-      }
-    }
-
-    public void eliminar() {
-        try{
-            String strSQL = "DELETE FROM cliente WHERE K_IDENTIFICACION = ?";
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setLong(1,cliente.getK_IDENTIFICACION()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
-            conexionDB.getInstance().commit();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
     }
 
 
@@ -84,30 +75,24 @@ public class daoCliente{
         return data;
     }
 
-    public void actualizar() throws CaException {
-        try {
+    public void actualizar(cliente c) throws SQLException {
             String strSQL = "UPDATE cliente SET I_TIPO_IDENTIFICACION=?, N_NOMBRE=?, N_APELLIDO=?, O_DIRECCION=?, O_TELEFONO=?, I_SEXO=?, F_NACIMIENTO=?, O_OCUPACION=?, O_CORREO_ELECTRONICO=?, V_INGRESO_MENSUAL=? WHERE K_IDENTIFICACION = ?";
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setString(1, cliente.getI_TIPO_IDENTIFICACION()); 
-            prepStmt.setString(2, cliente.getN_NOMBRE()); 
-            prepStmt.setString(3, cliente.getN_APELLIDO()); 
-            prepStmt.setString(4, cliente.getO_DIRECCION()); 
-            prepStmt.setLong(5,cliente.getO_TELEFONO()); 
-            prepStmt.setString(6,String.valueOf(cliente.getI_SEXO())); 
-            prepStmt.setDate(7,Date.valueOf(cliente.getF_NACIMIENTO())); 
-            prepStmt.setString(8,cliente.getO_DIRECCION());
-            prepStmt.setString(9,cliente.getO_CORREO_ELECTRONICO());
-            prepStmt.setFloat(10,cliente.getV_INGRESO_MENSUAL()); 
-            prepStmt.setFloat(11,cliente.getK_IDENTIFICACION()); 
+            prepStmt.setString(1, c.getI_TIPO_IDENTIFICACION()); 
+            prepStmt.setString(2, c.getN_NOMBRE()); 
+            prepStmt.setString(3, c.getN_APELLIDO()); 
+            prepStmt.setString(4, c.getO_DIRECCION()); 
+            prepStmt.setLong(5,c.getO_TELEFONO()); 
+            prepStmt.setString(6,String.valueOf(c.getI_SEXO())); 
+            prepStmt.setDate(7,Date.valueOf(c.getF_NACIMIENTO())); 
+            prepStmt.setString(8,c.getO_DIRECCION());
+            prepStmt.setString(9,c.getO_CORREO_ELECTRONICO());
+            prepStmt.setFloat(10,c.getV_INGRESO_MENSUAL()); 
+            prepStmt.setFloat(11,c.getK_IDENTIFICACION()); 
             prepStmt.executeUpdate();
             prepStmt.close();
             conexionDB.getInstance().commit();
-        } catch (SQLException e) {
-             throw new CaException( "cliente", "No se pudo actualizar el cliente"+ e.getMessage());
-        }  finally {
-           conexionDB.getInstance().liberarConexion();
-        }
-        
+            conexionDB.getInstance().liberarConexion();
     }
 
     
