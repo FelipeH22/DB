@@ -731,12 +731,22 @@ public class vista extends javax.swing.JFrame {
     }   
     
     private void botonConfirmarCuenta(java.awt.event.ActionEvent evt) throws SQLException {                                         
-       
+       int registroExiste=0;
         int entradaPermitida=0;
         switch (this.operacionCuenta) {
             case 1:
             {
-                if(Long.valueOf(this.campoNumCuenta.getText())<0 || Long.valueOf(this.campoIdenCliente.getText())<0)
+                for (int i = 0; i < tablaCliente.getRowCount(); i++) {
+                    if(tablaCliente.getValueAt(0, i).toString().equals(this.campoIdenCliente.getText())){
+                        registroExiste = 1;
+                        System.out.println("EL REGISTRO EXISTE");
+                        break;
+                    }else{
+                        registroExiste = 0;
+                        System.out.println("El registro no existe");
+                    }
+                }
+                if(Long.valueOf(this.campoNumCuenta.getText())<0 || Long.valueOf(this.campoIdenCliente.getText())<0 || registroExiste==0)
                 {
                     JOptionPane.showMessageDialog(null, "Entrada no valida.");
                 }
@@ -996,6 +1006,7 @@ public class vista extends javax.swing.JFrame {
                 TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
                 tablaCliente.setRowSorter(tr);
                 tr.setRowFilter(RowFilter.regexFilter(this.campoDNI.getText()));
+                
                 break;
             default:
                 break;
