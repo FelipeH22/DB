@@ -3,17 +3,21 @@ package gui;
 import java.sql.SQLException;
 import db.*;
 import datos.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 /**
  *
  * @author felipe
  */
 public class vista extends javax.swing.JFrame {
     int fila;
-    int operacionCliente;
+    int operacionCliente, operacionCuenta, operacionEvento;
     daoCuentaAhorro dbc2 = new daoCuentaAhorro();
     cuentaAhorro[] cuentas;
     daoCliente dbc = new daoCliente();
@@ -85,13 +89,13 @@ public class vista extends javax.swing.JFrame {
         campoEstado = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaCuenta = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
+        botonConfirmarCuenta = new javax.swing.JButton();
+        botonConsultarCuenta = new javax.swing.JButton();
         labelSaldo = new javax.swing.JLabel();
         campoSaldo = new javax.swing.JTextField();
         labelFecha = new javax.swing.JLabel();
         campoFecha = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        botonInsertarCuenta = new javax.swing.JButton();
         labelIdenCliente = new javax.swing.JLabel();
         campoIdenCliente = new javax.swing.JTextField();
         panelTransacciones = new javax.swing.JPanel();
@@ -266,7 +270,6 @@ public class vista extends javax.swing.JFrame {
         botonConfirmar.setEnabled(false);
         botonConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
             try {
-                System.out.println("Realizando operación");
                 botonConfirmarActionPerformed(evt);
             } catch (SQLException ex) {
                 Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
@@ -291,6 +294,17 @@ public class vista extends javax.swing.JFrame {
         campoEstado.setEnabled(false);
         campoEstado.addActionListener(this::campoEstadoActionPerformed);
         panelCuenta.add(campoEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 140, 30));
+        
+        botonConfirmarCuenta.setText("Confirmar");
+        botonConfirmarCuenta.setEnabled(false);
+        botonConfirmarCuenta.addActionListener((java.awt.event.ActionEvent evt) -> {
+            try {
+                botonConfirmarCuenta(evt);
+            } catch (SQLException ex) {
+                Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        panelCuenta.add(botonConfirmarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 410, -1, -1));
 
         this.llenaCuentas();
         tablaCuenta.setModel(new javax.swing.table.DefaultTableModel(
@@ -318,9 +332,9 @@ public class vista extends javax.swing.JFrame {
 
         panelCuenta.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 230));
 
-        jButton4.setText("Consultar");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
-        panelCuenta.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
+        botonConsultarCuenta.setText("Consultar");
+        botonConsultarCuenta.addActionListener(this::botonConsultarCuentaListener);
+        panelCuenta.add(botonConsultarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
 
         labelSaldo.setText("Saldo");
         panelCuenta.add(labelSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 280, -1, -1));
@@ -334,13 +348,9 @@ public class vista extends javax.swing.JFrame {
         campoFecha.setEnabled(false);
         panelCuenta.add(campoFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 90, 30));
 
-        jButton8.setText("Insertar");
-        jButton8.addActionListener(this::jButton8ActionPerformed);
-        panelCuenta.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
-
-        jButton9.setText("Actualizar");
-        jButton9.addActionListener(this::jButton9ActionPerformed);
-        panelCuenta.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, -1, -1));
+        botonInsertarCuenta.setText("Insertar");
+        botonInsertarCuenta.addActionListener(this::botonInsertarCuentaListener);
+        panelCuenta.add(botonInsertarCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
 
         labelIdenCliente.setText("Documento asociado");
         panelCuenta.add(labelIdenCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
@@ -371,7 +381,7 @@ public class vista extends javax.swing.JFrame {
         elegirTransaccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo movimiento", "Retirar", "Transferencia", " " }));
         elegirTransaccion.addItemListener(this::elegirTransaccionItemStateChanged);
         elegirTransaccion.addActionListener(this::elegirTransaccionActionPerformed);
-
+        tablaMovimientos.setVisible(false);
         this.llenaMovimientos();
         tablaMovimientos.setModel(new javax.swing.table.DefaultTableModel(
             dataMovimiento,
@@ -580,10 +590,7 @@ public class vista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        this.campoNumCuenta.setEnabled(true);
-        this.campoIdenCliente.setEnabled(true);
-    }                                        
+                                         
 
     private void campoEstadoActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
@@ -596,40 +603,6 @@ public class vista extends javax.swing.JFrame {
     private void campoIngresoMensualActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         // TODO add your handling code here:
     }                                                   
-
-    private void botonInsertarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        operacionCliente=1;
-        this.campoDNI.setText("");
-        this.campoTipoID.setText("");
-        this.campoNombre.setText("");
-        this.campoApellido.setText("");
-        this.campoDireccion.setText("");
-        this.campoTelefono.setText("");
-        this.campoSexo.setText("");
-        this.campoFechaNacimiento.setText("");
-        this.campoOcupacion.setText("");
-        this.campoCorreoElectronico.setText("");
-        this.campoIngresoMensual.setText("");
-        this.campoDNI.setEnabled(true);
-        this.campoTipoID.setEnabled(true);
-        this.campoNombre.setEnabled(true);
-        this.campoApellido.setEnabled(true);
-        this.campoDireccion.setEnabled(true);
-        this.campoTelefono.setEnabled(true);
-        this.campoSexo.setEnabled(true);
-        this.campoFechaNacimiento.setEnabled(true);
-        this.campoOcupacion.setEnabled(true);
-        this.campoCorreoElectronico.setEnabled(true);
-        this.campoIngresoMensual.setEnabled(true);
-        this.botonConfirmar.setEnabled(true);
-    }                                                    
-
-    private void botonConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        operacionCliente=2;
-        this.campoDNI.setEnabled(true);
-        this.campoCorreoElectronico.setEnabled(true);
-        this.botonConfirmar.setEnabled(true);
-    }                                                     
 
     private void campoTelefonoActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
@@ -702,20 +675,171 @@ public class vista extends javax.swing.JFrame {
     private void elegirTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
     }                                                 
+    ////////////////////////////////////////////////////
+    //                                                // 
+    //                                                //  
+    //             Listener Botones cuenta            //
+    //                                                //
+    //                                                //
+    ////////////////////////////////////////////////////
+    
+    private void botonInsertarCuentaListener(java.awt.event.ActionEvent evt) {    
+        Date myDate = new Date();
+        this.operacionCuenta=1;
+        this.campoNumCuenta.setText("");
+        this.campoIdenCliente.setText("");
+        this.campoEstado.setText("ACTIVA");
+        this.campoSaldo.setText("0");
+        this.campoFecha.setText(new SimpleDateFormat("yyyy-MM-dd").format(myDate)); 
+        this.campoNumCuenta.setEnabled(true);
+        this.campoIdenCliente.setEnabled(true);
+        this.campoSaldo.setEnabled(false);
+        this.botonConfirmarCuenta.setEnabled(true);
+    } 
+    
+    
+    private void tablaCuentaMouseClicked(java.awt.event.MouseEvent evt) {                                         
+        fila = tablaCuenta.rowAtPoint(evt.getPoint());
+        int columna = tablaCuenta.columnAtPoint(evt.getPoint());
+        if ((fila > -1) && (columna > -1)){
+            this.campoNumCuenta.setText(String.valueOf(tablaCuenta.getValueAt(fila,0)));
+            for (cuentaAhorro cuenta : cuentas) {
+                if (String.valueOf(cuenta.getK_NUM_CUENTA()).equals(String.valueOf(tablaCuenta.getValueAt(fila, 0)))) {
+                    this.campoEstado.setText(cuenta.getI_ESTADO());
+                    this.campoSaldo.setText(String.valueOf(cuenta.getV_SALDO()));
+                    this.campoFecha.setText(cuenta.getF_APERTURA());
+                    this.campoIdenCliente.setText(String.valueOf(cuenta.getK_IDENTIFICACION()));
+                }
+            }
+        } 
+    } 
+    
+    private void botonConsultarCuentaListener(java.awt.event.ActionEvent evt) {   
+        this.operacionCuenta=2;
+        this.campoNumCuenta.setEnabled(true);
+        this.campoIdenCliente.setEnabled(true);
+    }   
+    
+    private void botonConfirmarCuenta(java.awt.event.ActionEvent evt) throws SQLException {                                         
+       
+        int entradaPermitida=0;
+        switch (this.operacionCuenta) {
+            case 1:
+            {
+                if(Long.valueOf(this.campoNumCuenta.getText())<0 || Long.valueOf(this.campoIdenCliente.getText())<0)
+                {
+                    JOptionPane.showMessageDialog(null, "Entrada no valida.");
+                }
+                else{
+                    cuentaAhorro c = new cuentaAhorro();
+                    c.setK_NUM_CUENTA(Long.valueOf(this.campoNumCuenta.getText()));
+                    c.setI_ESTADO(this.campoEstado.getText());
+                    c.setV_SALDO(Float.valueOf(this.campoSaldo.getText()));
+                    c.setF_APERTURA(this.campoFecha.getText());
+                    c.setK_IDENTIFICACION(Long.valueOf(this.campoIdenCliente.getText()));
+                    dbc2.insertar(c);
+                    Object[] newRow={c.getK_NUM_CUENTA(),c.getI_ESTADO(),c.getV_SALDO(),c.getF_APERTURA(),c.getK_IDENTIFICACION()};
+                    DefaultTableModel model = (DefaultTableModel) tablaCuenta.getModel();
+                    model.addRow(newRow);
+                    JOptionPane.showMessageDialog(null, "Cuenta agregada");
+                    entradaPermitida=1;
+                }
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-       this.campoNumCuenta.setText("");
-       this.campoIdenCliente.setText("");
-       this.campoEstado.setText("");
-       this.campoSaldo.setText("");
-       this.campoFecha.setText(""); 
-       this.campoNumCuenta.setEnabled(true);
-       this.campoIdenCliente.setEnabled(true);
-       this.campoEstado.setEnabled(true);
-       this.campoSaldo.setEnabled(true);
-       this.campoFecha.setEnabled(true);
-    }                                        
-
+                break;
+            }
+           /*case 3:
+                if((!"M".equals(this.campoSexo.getText())&&!"F".equals(this.campoSexo.getText()))||(Float.valueOf(this.campoIngresoMensual.getText())<0)||(!"TI".equals(this.campoTipoID.getText())&&!"CC".equals(this.campoTipoID.getText()))&&!"CE".equals(this.campoTipoID.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "Entrada no valida. "
+                            + "en campo sexo solo se permite M o F, los ingresos mensuales deben ser positivos y el tipo de documento debe ser TI,CC O CE");
+                }
+                else{
+                    cliente c = new cliente();
+                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
+                    c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
+                    c.setN_NOMBRE(this.campoNombre.getText());
+                    c.setN_APELLIDO(this.campoApellido.getText());
+                    c.setO_DIRECCION(this.campoDireccion.getText());
+                    c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
+                    c.setI_SEXO(this.campoSexo.getText().charAt(0));
+                    c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
+                    c.setO_OCUPACION(this.campoOcupacion.getText());
+                    c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
+                    c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
+                    dbc.actualizar(c);
+                    DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
+                    model.setValueAt(c.getK_IDENTIFICACION(), fila, 0);
+                    model.setValueAt(c.getI_TIPO_IDENTIFICACION(), fila, 1);
+                    model.setValueAt(c.getN_NOMBRE(), fila, 2);
+                    model.setValueAt(c.getN_APELLIDO(), fila, 3);
+                    model.setValueAt(c.getO_DIRECCION(), fila, 4);
+                    model.setValueAt(c.getO_TELEFONO(), fila, 5);
+                    model.setValueAt(c.getI_SEXO(), fila, 6);
+                    model.setValueAt(c.getF_NACIMIENTO(), fila, 7);
+                    model.setValueAt(c.getO_OCUPACION(), fila, 8);
+                    model.setValueAt(c.getO_CORREO_ELECTRONICO(), fila, 9);
+                    model.setValueAt(c.getV_INGRESO_MENSUAL(), fila, 10);
+                    JOptionPane.showMessageDialog(null, "Cliente Actualizado");
+                }
+                
+                break;
+            case 2:
+                DefaultTableModel dm = (DefaultTableModel) tablaCliente.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaCliente.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(this.campoDNI.getText()));
+                break;
+            default:
+                break;*/
+        }
+        
+        if(entradaPermitida==1)
+        {
+            this.campoDNI.setEnabled(false);
+            this.campoTipoID.setEnabled(false);
+            this.campoNombre.setEnabled(false);
+            this.campoApellido.setEnabled(false);
+            this.campoDireccion.setEnabled(false);
+            this.campoTelefono.setEnabled(false);
+            this.campoSexo.setEnabled(false);
+            this.campoFechaNacimiento.setEnabled(false);
+            this.campoOcupacion.setEnabled(false);
+            this.campoCorreoElectronico.setEnabled(false);
+            this.campoIngresoMensual.setEnabled(false);
+            this.botonConfirmar.setEnabled(false);
+        }
+    } 
+    
+    
+    
+    
+    private void botonFinalizarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                          
+        this.campoCuentaOrigen.setEnabled(false);
+        this.campoCuentaDestino.setEnabled(false);
+        this.campoCantidad.setEnabled(false);
+    } 
+    
+    ////////////////////////////////////////////////////
+    //                                                // 
+    //                                                //  
+    //             Listener Botones eventos           //
+    //                                                //
+    //                                                //
+    ////////////////////////////////////////////////////    
+    
+    
+    private void tablaEventosMouseClicked(java.awt.event.MouseEvent evt) {                                          
+        // TODO add your handling code here:
+    }     
+    
+    ////////////////////////////////////////////////////
+    //                                                // 
+    //                                                //  
+    //             Listener Botones cliente           //
+    //                                                //
+    //                                                //
+    ////////////////////////////////////////////////////
+    
     private void botonActualizarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         operacionCliente=3;
         this.campoDNI.setEnabled(false);
@@ -746,29 +870,12 @@ public class vista extends javax.swing.JFrame {
             default:
                 break;
         }
-    }                                                  
-
-    private void botonFinalizarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                          
-        this.campoCuentaOrigen.setEnabled(false);
-        this.campoCuentaDestino.setEnabled(false);
-        this.campoCantidad.setEnabled(false);
-    }                                                         
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        this.campoNumCuenta.setEnabled(true);
-        this.campoIdenCliente.setEnabled(true);
-        this.campoEstado.setEnabled(true);
-        this.campoSaldo.setEnabled(true);
-        this.campoFecha.setEnabled(true);
-    }                                        
-
-    private void tablaCuentaMouseClicked(java.awt.event.MouseEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
-
-    private void tablaEventosMouseClicked(java.awt.event.MouseEvent evt) {                                          
-        // TODO add your handling code here:
-    }                                         
+    }    
+    
+    private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        operacionCliente = 4;
+        this.botonConfirmar.setEnabled(true);
+    }   
 
     private void tablaClienteMouseClicked(java.awt.event.MouseEvent evt) {                                          
         fila = tablaCliente.rowAtPoint(evt.getPoint());
@@ -790,34 +897,73 @@ public class vista extends javax.swing.JFrame {
                 }
             }
         } 
-    }                                         
-
-    private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        operacionCliente = 4;
+    }   
+    
+    private void botonInsertarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        operacionCliente=1;
+        this.campoDNI.setText("");
+        this.campoTipoID.setText("");
+        this.campoNombre.setText("");
+        this.campoApellido.setText("");
+        this.campoDireccion.setText("");
+        this.campoTelefono.setText("");
+        this.campoSexo.setText("");
+        this.campoFechaNacimiento.setText("");
+        this.campoOcupacion.setText("");
+        this.campoCorreoElectronico.setText("");
+        this.campoIngresoMensual.setText("");
+        this.campoDNI.setEnabled(true);
+        this.campoTipoID.setEnabled(true);
+        this.campoNombre.setEnabled(true);
+        this.campoApellido.setEnabled(true);
+        this.campoDireccion.setEnabled(true);
+        this.campoTelefono.setEnabled(true);
+        this.campoSexo.setEnabled(true);
+        this.campoFechaNacimiento.setEnabled(true);
+        this.campoOcupacion.setEnabled(true);
+        this.campoCorreoElectronico.setEnabled(true);
+        this.campoIngresoMensual.setEnabled(true);
         this.botonConfirmar.setEnabled(true);
-    }                                                    
-
-    private void botonConfirmarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException{                                               
+    }  
+    
+    private void botonConsultarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                      
+        operacionCliente=2;
+        this.campoDNI.setEnabled(true);
+        this.botonConfirmar.setEnabled(true);
+        
+    }
+                                                     
+    private void botonConfirmarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException{     
+        int entradaPermitida=0;
         switch (this.operacionCliente) {
             case 1:
                 {
-                    cliente c = new cliente();
-                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
-                    c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
-                    c.setN_NOMBRE(this.campoNombre.getText());
-                    c.setN_APELLIDO(this.campoApellido.getText());
-                    c.setO_DIRECCION(this.campoDireccion.getText());
-                    c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
-                    c.setI_SEXO(this.campoSexo.getText().charAt(0));
-                    c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
-                    c.setO_OCUPACION(this.campoOcupacion.getText());
-                    c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
-                    c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
-                    dbc.insertar(c);
-                    Object[] newRow={c.getK_IDENTIFICACION(),c.getI_TIPO_IDENTIFICACION(),c.getN_NOMBRE(),c.getN_APELLIDO(),c.getO_DIRECCION(),c.getO_TELEFONO(),c.getI_SEXO(),c.getF_NACIMIENTO(),c.getO_OCUPACION(),c.getO_CORREO_ELECTRONICO(),c.getV_INGRESO_MENSUAL()};
-                    DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
-                    model.addRow(newRow);
-                    JOptionPane.showMessageDialog(null, "Cliente agregado");
+                    if((!"M".equals(this.campoSexo.getText())&&!"F".equals(this.campoSexo.getText()))||(Float.valueOf(this.campoIngresoMensual.getText())<0)||(!"TI".equals(this.campoTipoID.getText())&&!"CC".equals(this.campoTipoID.getText()))&&!"CE".equals(this.campoTipoID.getText()))
+                    {
+                        JOptionPane.showMessageDialog(null, "Entrada no valida. "
+                                + "en campo sexo solo se permite M o F, los ingresos mensuales deben ser positivos y el tipo de documento debe ser TI,CC O CE");
+                    }
+                    else{
+                        cliente c = new cliente();
+                        c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
+                        c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
+                        c.setN_NOMBRE(this.campoNombre.getText());
+                        c.setN_APELLIDO(this.campoApellido.getText());
+                        c.setO_DIRECCION(this.campoDireccion.getText());
+                        c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
+                        c.setI_SEXO(this.campoSexo.getText().charAt(0));
+                        c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
+                        c.setO_OCUPACION(this.campoOcupacion.getText());
+                        c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
+                        c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
+                        dbc.insertar(c);
+                        Object[] newRow={c.getK_IDENTIFICACION(),c.getI_TIPO_IDENTIFICACION(),c.getN_NOMBRE(),c.getN_APELLIDO(),c.getO_DIRECCION(),c.getO_TELEFONO(),c.getI_SEXO(),c.getF_NACIMIENTO(),c.getO_OCUPACION(),c.getO_CORREO_ELECTRONICO(),c.getV_INGRESO_MENSUAL()};
+                        DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
+                        model.addRow(newRow);
+                        JOptionPane.showMessageDialog(null, "Cliente agregado");
+                        entradaPermitida=1;
+                    }
+                    
                     break;
                 }
             case 4:
@@ -830,48 +976,67 @@ public class vista extends javax.swing.JFrame {
                     break;
                 }
             case 3:
-                cliente c = new cliente();
-                c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
-                c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
-                c.setN_NOMBRE(this.campoNombre.getText());
-                c.setN_APELLIDO(this.campoApellido.getText());
-                c.setO_DIRECCION(this.campoDireccion.getText());
-                c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
-                c.setI_SEXO(this.campoSexo.getText().charAt(0));
-                c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
-                c.setO_OCUPACION(this.campoOcupacion.getText());
-                c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
-                c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
-                dbc.actualizar(c);
-                DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
-                model.setValueAt(c.getK_IDENTIFICACION(), fila, 0);
-                model.setValueAt(c.getI_TIPO_IDENTIFICACION(), fila, 1);
-                model.setValueAt(c.getN_NOMBRE(), fila, 2);
-                model.setValueAt(c.getN_APELLIDO(), fila, 3);
-                model.setValueAt(c.getO_DIRECCION(), fila, 4);
-                model.setValueAt(c.getO_TELEFONO(), fila, 5);
-                model.setValueAt(c.getI_SEXO(), fila, 6);
-                model.setValueAt(c.getF_NACIMIENTO(), fila, 7);
-                model.setValueAt(c.getO_OCUPACION(), fila, 8);
-                model.setValueAt(c.getO_CORREO_ELECTRONICO(), fila, 9);
-                model.setValueAt(c.getV_INGRESO_MENSUAL(), fila, 10);
-                JOptionPane.showMessageDialog(null, "Cliente Actualizado");
+                if((!"M".equals(this.campoSexo.getText())&&!"F".equals(this.campoSexo.getText()))||(Float.valueOf(this.campoIngresoMensual.getText())<0)||(!"TI".equals(this.campoTipoID.getText())&&!"CC".equals(this.campoTipoID.getText()))&&!"CE".equals(this.campoTipoID.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "Entrada no valida. "
+                            + "en campo sexo solo se permite M o F, los ingresos mensuales deben ser positivos y el tipo de documento debe ser TI,CC O CE");
+                }
+                else{
+                    cliente c = new cliente();
+                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
+                    c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
+                    c.setN_NOMBRE(this.campoNombre.getText());
+                    c.setN_APELLIDO(this.campoApellido.getText());
+                    c.setO_DIRECCION(this.campoDireccion.getText());
+                    c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
+                    c.setI_SEXO(this.campoSexo.getText().charAt(0));
+                    c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
+                    c.setO_OCUPACION(this.campoOcupacion.getText());
+                    c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
+                    c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
+                    dbc.actualizar(c);
+                    DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
+                    model.setValueAt(c.getK_IDENTIFICACION(), fila, 0);
+                    model.setValueAt(c.getI_TIPO_IDENTIFICACION(), fila, 1);
+                    model.setValueAt(c.getN_NOMBRE(), fila, 2);
+                    model.setValueAt(c.getN_APELLIDO(), fila, 3);
+                    model.setValueAt(c.getO_DIRECCION(), fila, 4);
+                    model.setValueAt(c.getO_TELEFONO(), fila, 5);
+                    model.setValueAt(c.getI_SEXO(), fila, 6);
+                    model.setValueAt(c.getF_NACIMIENTO(), fila, 7);
+                    model.setValueAt(c.getO_OCUPACION(), fila, 8);
+                    model.setValueAt(c.getO_CORREO_ELECTRONICO(), fila, 9);
+                    model.setValueAt(c.getV_INGRESO_MENSUAL(), fila, 10);
+                    JOptionPane.showMessageDialog(null, "Cliente Actualizado");
+                }
+                
+                break;
+            case 2:
+                DefaultTableModel dm = (DefaultTableModel) tablaCliente.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaCliente.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(this.campoDNI.getText()));
                 break;
             default:
                 break;
         }
-        this.campoDNI.setEnabled(false);
-        this.campoTipoID.setEnabled(false);
-        this.campoNombre.setEnabled(false);
-        this.campoApellido.setEnabled(false);
-        this.campoDireccion.setEnabled(false);
-        this.campoTelefono.setEnabled(false);
-        this.campoSexo.setEnabled(false);
-        this.campoFechaNacimiento.setEnabled(false);
-        this.campoOcupacion.setEnabled(false);
-        this.campoCorreoElectronico.setEnabled(false);
-        this.campoIngresoMensual.setEnabled(false);
-        this.botonConfirmar.setEnabled(false);
+        
+        if(entradaPermitida==1)
+        {
+            this.campoDNI.setEnabled(false);
+            this.campoTipoID.setEnabled(false);
+            this.campoNombre.setEnabled(false);
+            this.campoApellido.setEnabled(false);
+            this.campoDireccion.setEnabled(false);
+            this.campoTelefono.setEnabled(false);
+            this.campoSexo.setEnabled(false);
+            this.campoFechaNacimiento.setEnabled(false);
+            this.campoOcupacion.setEnabled(false);
+            this.campoCorreoElectronico.setEnabled(false);
+            this.campoIngresoMensual.setEnabled(false);
+            this.botonConfirmar.setEnabled(false);
+        }
+        
     }                                              
     
     public void llenaCuentas() throws SQLException{
@@ -948,6 +1113,7 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JButton botonEliminarCliente;
     private javax.swing.JButton botonFinalizarTransaccion;
     private javax.swing.JButton botonInsertarCliente;
+    private javax.swing.JButton botonConfirmarCuenta;
     private javax.swing.JTextField campoApellido;
     private javax.swing.JTextField campoCantidad;
     private javax.swing.JTextField campoCodigoEvento;
@@ -973,9 +1139,8 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JTextField campoTipoEvento;
     private javax.swing.JTextField campoTipoID;
     private javax.swing.JComboBox<String> elegirTransaccion;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton botonConsultarCuenta;
+    private javax.swing.JButton botonInsertarCuenta;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

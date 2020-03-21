@@ -21,7 +21,7 @@ public class daoCliente{
             prepStmt.setLong(6,c.getO_TELEFONO()); 
             prepStmt.setString(7,String.valueOf(c.getI_SEXO())); 
             prepStmt.setDate(8,Date.valueOf(c.getF_NACIMIENTO())); 
-            prepStmt.setString(9,c.getO_DIRECCION());
+            prepStmt.setString(9,c.getO_OCUPACION());
             prepStmt.setString(10,c.getO_CORREO_ELECTRONICO());
             prepStmt.setFloat(11,c.getV_INGRESO_MENSUAL()); 
             prepStmt.executeUpdate();
@@ -85,7 +85,7 @@ public class daoCliente{
             prepStmt.setLong(5,c.getO_TELEFONO()); 
             prepStmt.setString(6,String.valueOf(c.getI_SEXO())); 
             prepStmt.setDate(7,Date.valueOf(c.getF_NACIMIENTO())); 
-            prepStmt.setString(8,c.getO_DIRECCION());
+            prepStmt.setString(8,c.getO_OCUPACION());
             prepStmt.setString(9,c.getO_CORREO_ELECTRONICO());
             prepStmt.setFloat(10,c.getV_INGRESO_MENSUAL()); 
             prepStmt.setLong(11,c.getK_IDENTIFICACION()); 
