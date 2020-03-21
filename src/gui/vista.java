@@ -16,7 +16,7 @@ import javax.swing.table.TableRowSorter;
  * @author felipe
  */
 public class vista extends javax.swing.JFrame {
-    int fila;
+    int fila,seleccion;
     int operacionCliente, operacionCuenta, operacionEvento;
     daoCuentaAhorro dbc2 = new daoCuentaAhorro();
     cuentaAhorro[] cuentas;
@@ -716,8 +716,18 @@ public class vista extends javax.swing.JFrame {
     
     private void botonConsultarCuentaListener(java.awt.event.ActionEvent evt) {   
         this.operacionCuenta=2;
-        this.campoNumCuenta.setEnabled(true);
-        this.campoIdenCliente.setEnabled(true);
+        String[] opciones = {"Número de cuenta", "Documento asociado"};
+        seleccion = JOptionPane.showOptionDialog(null, "Seleccione el criterio de consulta","consulta",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion==0){
+            this.campoNumCuenta.setEnabled(true);
+            this.botonConfirmarCuenta.setEnabled(true);
+        }
+        else{
+            this.campoIdenCliente.setEnabled(true);
+            this.botonConfirmarCuenta.setEnabled(true);
+        }
+        
     }   
     
     private void botonConfirmarCuenta(java.awt.event.ActionEvent evt) throws SQLException {                                         
@@ -747,50 +757,20 @@ public class vista extends javax.swing.JFrame {
 
                 break;
             }
-           /*case 3:
-                if((!"M".equals(this.campoSexo.getText())&&!"F".equals(this.campoSexo.getText()))||(Float.valueOf(this.campoIngresoMensual.getText())<0)||(!"TI".equals(this.campoTipoID.getText())&&!"CC".equals(this.campoTipoID.getText()))&&!"CE".equals(this.campoTipoID.getText()))
-                {
-                    JOptionPane.showMessageDialog(null, "Entrada no valida. "
-                            + "en campo sexo solo se permite M o F, los ingresos mensuales deben ser positivos y el tipo de documento debe ser TI,CC O CE");
+            case 2:
+                DefaultTableModel dm = (DefaultTableModel) tablaCuenta.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaCuenta.setRowSorter(tr);
+                if(seleccion==0){
+                    tr.setRowFilter(RowFilter.regexFilter(this.campoNumCuenta.getText()));
                 }
                 else{
-                    cliente c = new cliente();
-                    c.setK_IDENTIFICACION(Long.valueOf(this.campoDNI.getText()));
-                    c.setI_TIPO_IDENTIFICACION(this.campoTipoID.getText());
-                    c.setN_NOMBRE(this.campoNombre.getText());
-                    c.setN_APELLIDO(this.campoApellido.getText());
-                    c.setO_DIRECCION(this.campoDireccion.getText());
-                    c.setO_TELEFONO(Long.valueOf(this.campoTelefono.getText()));
-                    c.setI_SEXO(this.campoSexo.getText().charAt(0));
-                    c.setF_NACIMIENTO(this.campoFechaNacimiento.getText());
-                    c.setO_OCUPACION(this.campoOcupacion.getText());
-                    c.setO_CORREO_ELECTRONICO(this.campoCorreoElectronico.getText());
-                    c.setV_INGRESO_MENSUAL(Float.valueOf(this.campoIngresoMensual.getText()));
-                    dbc.actualizar(c);
-                    DefaultTableModel model = (DefaultTableModel) tablaCliente.getModel();
-                    model.setValueAt(c.getK_IDENTIFICACION(), fila, 0);
-                    model.setValueAt(c.getI_TIPO_IDENTIFICACION(), fila, 1);
-                    model.setValueAt(c.getN_NOMBRE(), fila, 2);
-                    model.setValueAt(c.getN_APELLIDO(), fila, 3);
-                    model.setValueAt(c.getO_DIRECCION(), fila, 4);
-                    model.setValueAt(c.getO_TELEFONO(), fila, 5);
-                    model.setValueAt(c.getI_SEXO(), fila, 6);
-                    model.setValueAt(c.getF_NACIMIENTO(), fila, 7);
-                    model.setValueAt(c.getO_OCUPACION(), fila, 8);
-                    model.setValueAt(c.getO_CORREO_ELECTRONICO(), fila, 9);
-                    model.setValueAt(c.getV_INGRESO_MENSUAL(), fila, 10);
-                    JOptionPane.showMessageDialog(null, "Cliente Actualizado");
+                    tr.setRowFilter(RowFilter.regexFilter(this.campoIdenCliente.getText()));
                 }
                 
                 break;
-            case 2:
-                DefaultTableModel dm = (DefaultTableModel) tablaCliente.getModel();
-                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
-                tablaCliente.setRowSorter(tr);
-                tr.setRowFilter(RowFilter.regexFilter(this.campoDNI.getText()));
-                break;
             default:
-                break;*/
+                break;
         }
         
         if(entradaPermitida==1)
