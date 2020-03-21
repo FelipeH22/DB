@@ -378,7 +378,7 @@ public class vista extends javax.swing.JFrame {
         botonConsultarMovimientos.setText("Consultar movimientos de la cuenta");
         botonConsultarMovimientos.addActionListener(this::botonConsultarMovimientosActionPerformed);
 
-        elegirTransaccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo movimiento", "Retirar", "Transferencia", " " }));
+        elegirTransaccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar tipo movimiento", "Retirar", "Transferencia","Consignar"}));
         elegirTransaccion.addItemListener(this::elegirTransaccionItemStateChanged);
         elegirTransaccion.addActionListener(this::elegirTransaccionActionPerformed);
         tablaMovimientos.setVisible(false);
@@ -739,11 +739,9 @@ public class vista extends javax.swing.JFrame {
                 for (int i = 0; i < tablaCliente.getRowCount(); i++) {
                     if(tablaCliente.getValueAt(0, i).toString().equals(this.campoIdenCliente.getText())){
                         registroExiste = 1;
-                        System.out.println("EL REGISTRO EXISTE");
                         break;
                     }else{
                         registroExiste = 0;
-                        System.out.println("El registro no existe");
                     }
                 }
                 if(Long.valueOf(this.campoNumCuenta.getText())<0 || Long.valueOf(this.campoIdenCliente.getText())<0 || registroExiste==0)
@@ -849,6 +847,7 @@ public class vista extends javax.swing.JFrame {
     private void elegirTransaccionItemStateChanged(java.awt.event.ItemEvent evt) {                                                   
         switch (this.elegirTransaccion.getSelectedItem().toString()) {
             case "Retirar":
+                this.campoCuentaDestino.setEnabled(false);
                 this.campoCuentaOrigen.setEnabled(true);
                 this.campoCantidad.setEnabled(true);
                 break;
@@ -857,6 +856,10 @@ public class vista extends javax.swing.JFrame {
                 this.campoCuentaDestino.setEnabled(true);
                 this.campoCantidad.setEnabled(true);
                 break;
+            case "Consignar":
+                this.campoCuentaOrigen.setEnabled(false);
+                this.campoCuentaDestino.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
             default:
                 break;
         }
