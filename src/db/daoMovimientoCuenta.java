@@ -69,18 +69,5 @@ public class daoMovimientoCuenta{
         res.close();
         return data2;
     }
-
-    public void actualizar(movimientoCuenta c) throws SQLException {
-        String strSQL = "UPDATE movimiento_cuenta SET V_MOVIMIENTO=?, I_TIPO=?, F_MOVIMIENTO=?, K_NUM_CUENTA=? WHERE K_MOVIMIENTO = ?";
-        PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-        prepStmt.setFloat(1, c.getV_MOVIMIENTO()); 
-        prepStmt.setString(2, c.getI_TIPO()); 
-        prepStmt.setDate(3, Date.valueOf(c.getF_MOVIMIENTO())); 
-        prepStmt.setLong(4, c.getK_NUM_CUENTA()); 
-        prepStmt.setLong(5, c.getK_MOVIMIENTO()); 
-        prepStmt.executeUpdate();
-        prepStmt.close();
-        conexionDB.getInstance().commit();
-    }
     
 }

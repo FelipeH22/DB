@@ -124,10 +124,6 @@ public class vista extends javax.swing.JFrame {
         botonActivarCuenta = new javax.swing.JButton();
         labelCodigoEvento = new javax.swing.JLabel();
         campoCodigoEvento = new javax.swing.JTextField();
-        labelTipoEvento = new javax.swing.JLabel();
-        campoTipoEvento = new javax.swing.JTextField();
-        labelFechaEvento = new javax.swing.JLabel();
-        campoFechaEvento = new javax.swing.JTextField();
         labelDescripcionEvento = new javax.swing.JLabel();
         campoDescripcionEvento = new javax.swing.JTextField();
         botonDesactivarCuenta = new javax.swing.JButton();
@@ -494,30 +490,40 @@ public class vista extends javax.swing.JFrame {
         botonConsultarEvento.addActionListener(this::botonConsultarEventoActionPerformed);
 
         botonActivarCuenta.setText("Activar cuenta");
-        botonActivarCuenta.addActionListener(this::botonActivarCuentaActionPerformed);
+        botonActivarCuenta.addActionListener((java.awt.event.ActionEvent evt) -> {
+            try {
+                botonActivarCuentaActionPerformed(evt);
+            } catch (SQLException ex) {
+                Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         labelCodigoEvento.setText("Código evento");
 
         campoCodigoEvento.setEnabled(false);
 
-        labelTipoEvento.setText("Tipo Evento");
 
-        campoTipoEvento.setEnabled(false);
 
-        labelFechaEvento.setText("Fecha evento");
 
-        campoFechaEvento.setEnabled(false);
-        campoFechaEvento.addActionListener(this::campoFechaEventoActionPerformed);
 
         labelDescripcionEvento.setText("Descripción evento");
-
-        campoDescripcionEvento.setEnabled(false);
-
         botonDesactivarCuenta.setText("Desactivar cuenta");
-        botonDesactivarCuenta.addActionListener(this::botonDesactivarCuentaActionPerformed);
+        botonDesactivarCuenta.addActionListener((java.awt.event.ActionEvent evt) -> {
+            try {
+                botonDesactivarCuentaActionPerformed(evt);
+            } catch (SQLException ex) {
+                Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         botonBloquearCuenta.setText("Bloquear cuenta");
-        botonBloquearCuenta.addActionListener(this::botonBloquearCuentaActionPerformed);
+        botonBloquearCuenta.addActionListener((java.awt.event.ActionEvent evt) -> {
+             try {
+                 botonBloquearCuentaActionPerformed(evt);
+             } catch (SQLException ex) {
+                 Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         });
 
         javax.swing.GroupLayout panelEventosLayout = new javax.swing.GroupLayout(panelEventos);
         panelEventos.setLayout(panelEventosLayout);
@@ -532,13 +538,9 @@ public class vista extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campoCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(labelTipoEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoTipoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelFechaEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(labelDescripcionEvento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -566,10 +568,6 @@ public class vista extends javax.swing.JFrame {
                 .addGroup(panelEventosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCodigoEvento)
                     .addComponent(campoCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelTipoEvento)
-                    .addComponent(campoTipoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelFechaEvento)
-                    .addComponent(campoFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelDescripcionEvento)
                     .addComponent(campoDescripcionEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
@@ -657,27 +655,20 @@ public class vista extends javax.swing.JFrame {
 
     private void botonConsultarEventoActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         this.campoNumCuentaEvento.setEnabled(true);
+        DefaultTableModel dm = (DefaultTableModel) tablaCuenta.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+        tablaCuenta.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(""));
     }                                                    
 
     private void campoNumCuentaEventoActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         // TODO add your handling code here:
     }                                                    
 
-    private void botonActivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        // TODO add your handling code here:
-    }                                                  
+                                                     
 
-    private void campoFechaEventoActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
-    }                                                
 
-    private void botonDesactivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-        // TODO add your handling code here:
-    }                                                     
-
-    private void botonBloquearCuentaActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // TODO add your handling code here:
-    }                                                   
+                                                      
 
     private void elegirTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
@@ -733,7 +724,6 @@ public class vista extends javax.swing.JFrame {
         tablaMovimientos.getRowSorter().toggleSortOrder(3);
         tablaMovimientos.getRowSorter().toggleSortOrder(3);
         this.tablaMovimientos.setVisible(true);
-
     }                                                         
 
     private void botonConsultarTodosMovimientosActionPerformed(java.awt.event.ActionEvent evt) {
@@ -757,12 +747,60 @@ public class vista extends javax.swing.JFrame {
         co.setI_TIPO(this.transaccion);       
         cd.setF_MOVIMIENTO(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms").format(new Timestamp(myDate.getTime())));
         cd.setI_TIPO(this.transaccion);
+        
         switch (this.transaccion) {
             case "TRANSFERENCIA":
                 co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaOrigen.getText()));
                 co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText())*(-1));
                 cd.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaDestino.getText()));
                 cd.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText()));
+                int filaEncontrada1=0;
+                int filaEncontrada2=0;
+                int cuentaActiva1 = 0;
+                int cuentaActiva2 = 0;
+                int saldoSuficiente = 0;
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                        if(String.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 1)).equals("ACTIVA")){
+                            cuentaActiva1=1;
+                        }
+                        else{
+                            cuentaActiva1=0;
+                        }
+                        if(Float.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 2).toString())>Float.valueOf(this.campoCantidad.getText())){
+                            saldoSuficiente=1;
+                        }
+                        else
+                            saldoSuficiente=0;
+                        
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
+                if(cuentaActiva1!=1 || filaEncontrada1 == -1 || saldoSuficiente==0){
+                    JOptionPane.showMessageDialog(null, "No se puede realizar el movimiento, cuenta no activa, inexistente o el saldo es insuficiente");
+                    break;
+                }
+                for (int j = 0; j < tablaCuenta.getRowCount(); j++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(j, 0).toString())==(cd.getK_NUM_CUENTA())){
+                        filaEncontrada2 = j;
+                        if(String.valueOf(tablaCuenta.getValueAt(filaEncontrada2, 1)).equals("ACTIVA")){
+                            cuentaActiva2=1;
+                        }    
+                        else{
+                            cuentaActiva2=0;
+                        }
+                        break;
+                    }else{
+                        filaEncontrada2 = -1;
+                    }
+                }  
+                if(cuentaActiva2!=1 || filaEncontrada2 == -1){
+                    JOptionPane.showMessageDialog(null, "No se puede realizar el movimiento, cuenta no activa, inexistente o el saldo es insuficiente");
+                    break;
+                }
                 TableModel modelo = tablaMovimientos.getModel();
                 co.setK_MOVIMIENTO(modelo.getRowCount()+1);
                 cd.setK_MOVIMIENTO(modelo.getRowCount()+2);
@@ -778,14 +816,11 @@ public class vista extends javax.swing.JFrame {
                 tablaMovimientos.getRowSorter().toggleSortOrder(3);
                 
                 //Descuento en las cuentas
-                int filaEncontrada1 = 0;
-                int filaEncontrada2 = 0;
                 DefaultTableModel modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
                 for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
                     if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
                         filaEncontrada1 = i;
                          modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
-                         System.out.println("Saldo Cambiado");
                         break;
                     }else{
                         filaEncontrada1 = -1;
@@ -796,7 +831,6 @@ public class vista extends javax.swing.JFrame {
                     if(Long.valueOf(tablaCuenta.getValueAt(j, 0).toString())==(cd.getK_NUM_CUENTA())){
                         filaEncontrada2 = j;
                         modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada2, 2).toString())+cd.getV_MOVIMIENTO(), filaEncontrada2, 2);
-                        System.out.println("Saldo Cambiado");
                         break;
                     }else{
                         filaEncontrada2 = -1;
@@ -808,6 +842,35 @@ public class vista extends javax.swing.JFrame {
                 co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaOrigen.getText()));
                 co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText())*(-1));
                 co.setK_MOVIMIENTO(model.getRowCount()+1);
+                filaEncontrada1=0;
+                filaEncontrada2=0;
+                cuentaActiva1 = 0;
+                cuentaActiva2 = 0;
+                saldoSuficiente = 0;
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                        if(String.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 1)).equals("ACTIVA")){
+                            cuentaActiva1=1;
+                        }
+                        else{
+                            cuentaActiva1=0;
+                        }
+                        if(Float.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 2).toString())>Float.valueOf(this.campoCantidad.getText())){
+                            saldoSuficiente=1;
+                        }
+                        else
+                            saldoSuficiente=0;
+                        
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
+                if(cuentaActiva1!=1 || filaEncontrada1 == -1 || saldoSuficiente==0){
+                    JOptionPane.showMessageDialog(null, "No se puede realizar el movimiento, cuenta no activa, inexistente o el saldo es insuficiente");
+                    break;
+                }
                 dbc3.insertar(co);        
                 filaEncontrada1 = 0;
                 filaEncontrada2 = 0;
@@ -816,19 +879,47 @@ public class vista extends javax.swing.JFrame {
                     if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
                         filaEncontrada1 = i;
                          modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
-                         System.out.println("Saldo Cambiado");
                         break;
                     }else{
                         filaEncontrada1 = -1;
                     }
                 }
+                 JOptionPane.showMessageDialog(null, "Movimiento Realizado correctamente");
                 break;
             case "CONSIGNACION":
-                
                 model = (DefaultTableModel) tablaMovimientos.getModel();
                 co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaDestino.getText()));
                 co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText()));
                 co.setK_MOVIMIENTO(model.getRowCount()+1);
+                filaEncontrada1=0;
+                filaEncontrada2=0;
+                cuentaActiva1 = 0;
+                cuentaActiva2 = 0;
+                saldoSuficiente = 0;
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                        if(String.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 1)).equals("ACTIVA")){
+                            cuentaActiva1=1;
+                        }
+                        else{
+                            cuentaActiva1=0;
+                        }
+                        if(Float.valueOf(tablaCuenta.getValueAt(filaEncontrada1, 2).toString())>Float.valueOf(this.campoCantidad.getText())){
+                            saldoSuficiente=1;
+                        }
+                        else
+                            saldoSuficiente=0;
+                        
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
+                if(cuentaActiva1!=1 || filaEncontrada1 == -1){
+                    JOptionPane.showMessageDialog(null, "No se puede realizar el movimiento, cuenta no activa o inexistente");
+                    break;
+                }
                 dbc3.insertar(co);        
                 filaEncontrada1 = 0;
                 filaEncontrada2 = 0;
@@ -837,13 +928,12 @@ public class vista extends javax.swing.JFrame {
                     if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
                         filaEncontrada1 = i;
                          modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
-                         System.out.println("Saldo Cambiado");
                         break;
                     }else{
                         filaEncontrada1 = -1;
                     }
                 }
-                
+                 JOptionPane.showMessageDialog(null, "Movimiento Realizado correctamente");
                 break;
             default:
                 break;
@@ -914,8 +1004,8 @@ public class vista extends javax.swing.JFrame {
         switch (this.operacionCuenta) {
             case 1:
             {
-                for (int i = 0; i < tablaCliente.getRowCount(); i++) {
-                    if(tablaCliente.getValueAt(0, i).toString().equals(this.campoIdenCliente.getText())){
+                for (int x = 0; x < tablaCliente.getRowCount(); x++) {
+                    if(tablaCliente.getValueAt(x, 0).toString().equals(this.campoIdenCliente.getText())){
                         registroExiste = 1;
                         break;
                     }else{
@@ -936,8 +1026,18 @@ public class vista extends javax.swing.JFrame {
                     dbc2.insertar(c);
                     Object[] newRow={c.getK_NUM_CUENTA(),c.getI_ESTADO(),c.getV_SALDO(),c.getF_APERTURA(),c.getK_IDENTIFICACION()};
                     DefaultTableModel model = (DefaultTableModel) tablaCuenta.getModel();
+                    DefaultTableModel modeleven = (DefaultTableModel) tablaEventos.getModel();
                     model.addRow(newRow);
+                    eventoCuenta ec = new eventoCuenta();
+                    ec.setF_EVENTO(this.campoFecha.getText());
+                    ec.setK_NUM_CUENTA(Long.valueOf(this.campoNumCuenta.getText()));
+                    ec.setK_EVENTO(modeleven.getRowCount()+1);
+                    ec.setI_TIPO_EVENTO("ACTIVACION");
+                    ec.setO_DESCRIPCION("CREACION CUENTA");
+                    dbc4.insertar(ec);
+                    Object[] newEvento={ec.getK_EVENTO(),ec.getI_TIPO_EVENTO(),ec.getF_EVENTO(), ec.getO_DESCRIPCION(), ec.getK_NUM_CUENTA()};
                     JOptionPane.showMessageDialog(null, "Cuenta agregada");
+                    modeleven.addRow(newEvento);
                     entradaPermitida=1;
                 }
 
@@ -986,10 +1086,128 @@ public class vista extends javax.swing.JFrame {
     //                                                //
     ////////////////////////////////////////////////////    
     
-    
+    eventoCuenta ec = new eventoCuenta();
     private void tablaEventosMouseClicked(java.awt.event.MouseEvent evt) {                                          
-        // TODO add your handling code here:
-    }     
+        fila = tablaEventos.rowAtPoint(evt.getPoint());
+        int columna = tablaEventos.columnAtPoint(evt.getPoint());
+        if ((fila > -1) && (columna > -1)){
+            this.campoCodigoEvento.setText(String.valueOf(tablaEventos.getValueAt(fila,0)));
+            this.campoNumCuentaEvento.setText(String.valueOf(tablaEventos.getValueAt(fila,4)));
+        } 
+    }
+    
+    private void botonActivarCuentaActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                                   
+        Date myDate = new Date();
+        ec.setF_EVENTO(new SimpleDateFormat("yyyy-MM-dd").format(myDate));
+        ec.setI_TIPO_EVENTO("ACTIVACION");
+        ec.setK_NUM_CUENTA(Long.valueOf(this.campoNumCuentaEvento.getText()));
+        ec.setO_DESCRIPCION(this.campoDescripcionEvento.getText());
+        ec.setK_EVENTO(tablaEventos.getRowCount()+1);
+        dbc4.insertar(ec);
+        DefaultTableModel modeleven = (DefaultTableModel) tablaEventos.getModel();
+        Object[] newEvento={ec.getK_EVENTO(),ec.getI_TIPO_EVENTO(),ec.getF_EVENTO(), ec.getO_DESCRIPCION(), ec.getK_NUM_CUENTA()};
+        modeleven.addRow(newEvento);
+        DefaultTableModel modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+        int filaEncontrada = -1;
+        for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+            if (Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(ec.getK_NUM_CUENTA())) {
+                filaEncontrada = i;
+                switch (ec.getI_TIPO_EVENTO()) {
+                    case "ACTIVACION":
+                        modeloCuenta.setValueAt("ACTIVA", filaEncontrada, 1);
+                    case "INACTIVACION":
+                        modeloCuenta.setValueAt("INACTIVA", filaEncontrada, 1);
+                    case "BLOQUEO":
+                        modeloCuenta.setValueAt("BLOQUEADA", filaEncontrada, 1);
+                }
+                DefaultTableModel dm = (DefaultTableModel) tablaEventos.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaEventos.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(modeloCuenta.getValueAt(filaEncontrada, 0).toString()));
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+            }
+            else
+                filaEncontrada=-1;
+        }
+        DefaultTableModel dm = (DefaultTableModel) tablaCuenta.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+        tablaCuenta.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(this.campoNumCuentaEvento.getText()));
+    }  
+    private void botonDesactivarCuentaActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                                      
+        Date myDate = new Date();
+        ec.setF_EVENTO(new SimpleDateFormat("yyyy-MM-dd").format(myDate));
+        ec.setI_TIPO_EVENTO("INACTIVACION");
+        ec.setK_NUM_CUENTA(Long.valueOf(this.campoNumCuentaEvento.getText()));
+        ec.setO_DESCRIPCION(this.campoDescripcionEvento.getText());
+        ec.setK_EVENTO(tablaEventos.getRowCount()+1);
+        dbc4.insertar(ec);
+        DefaultTableModel modeleven = (DefaultTableModel) tablaEventos.getModel();
+        Object[] newEvento={ec.getK_EVENTO(),ec.getI_TIPO_EVENTO(),ec.getF_EVENTO(), ec.getO_DESCRIPCION(), ec.getK_NUM_CUENTA()};
+        modeleven.addRow(newEvento);
+        DefaultTableModel modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+        int filaEncontrada = -1;
+        for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+            if (Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(ec.getK_NUM_CUENTA())) {
+                filaEncontrada = i;
+                switch (ec.getI_TIPO_EVENTO()) {
+                    case "ACTIVACION":
+                        modeloCuenta.setValueAt("ACTIVA", filaEncontrada, 1);
+                    case "INACTIVACION":
+                        modeloCuenta.setValueAt("INACTIVA", filaEncontrada, 1);
+                    case "BLOQUEO":
+                        modeloCuenta.setValueAt("BLOQUEADA", filaEncontrada, 1);
+                }
+                DefaultTableModel dm = (DefaultTableModel) tablaEventos.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaEventos.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(modeloCuenta.getValueAt(filaEncontrada, 0).toString()));
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+            }
+            else{
+                filaEncontrada = -1;
+            }
+        }
+        
+    }                                                     
+
+    private void botonBloquearCuentaActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                                    
+        Date myDate = new Date();
+        ec.setF_EVENTO(new SimpleDateFormat("yyyy-MM-dd").format(myDate));
+        ec.setI_TIPO_EVENTO("BLOQUEO");
+        ec.setK_NUM_CUENTA(Long.valueOf(this.campoNumCuentaEvento.getText()));
+        ec.setO_DESCRIPCION(this.campoDescripcionEvento.getText());
+        ec.setK_EVENTO(tablaEventos.getRowCount()+1);
+        dbc4.insertar(ec);
+        DefaultTableModel modeleven = (DefaultTableModel) tablaEventos.getModel();
+        Object[] newEvento={ec.getK_EVENTO(),ec.getI_TIPO_EVENTO(),ec.getF_EVENTO(), ec.getO_DESCRIPCION(), ec.getK_NUM_CUENTA()};
+        modeleven.addRow(newEvento);
+        DefaultTableModel modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+        int filaEncontrada = -1;
+        for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+            if (Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(ec.getK_NUM_CUENTA())) {
+                filaEncontrada = i;
+                switch (ec.getI_TIPO_EVENTO()) {
+                    case "ACTIVACION":
+                        modeloCuenta.setValueAt("ACTIVA", filaEncontrada, 1);
+                    case "INACTIVACION":
+                        modeloCuenta.setValueAt("INACTIVA", filaEncontrada, 1);
+                    case "BLOQUEO":
+                        modeloCuenta.setValueAt("BLOQUEADA", filaEncontrada, 1);
+                }
+                DefaultTableModel dm = (DefaultTableModel) tablaEventos.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaEventos.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(modeloCuenta.getValueAt(filaEncontrada, 0).toString()));
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+                tablaEventos.getRowSorter().toggleSortOrder(0);
+            }
+            else
+                filaEncontrada=-1;
+        }
+    } 
     
     ////////////////////////////////////////////////////
     //                                                // 
@@ -1231,7 +1449,6 @@ public class vista extends javax.swing.JFrame {
     }
     
     public void llenaEventos() throws SQLException{
-        
         eventos = dbc4.getEvento();
         dataEvento = new Object[eventos.length][5];                    
 
@@ -1269,7 +1486,6 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JTextField campoDireccion;
     private javax.swing.JTextField campoEstado;
     private javax.swing.JTextField campoFecha;
-    private javax.swing.JTextField campoFechaEvento;
     private javax.swing.JTextField campoFechaNacimiento;
     private javax.swing.JTextField campoIdenCliente;
     private javax.swing.JTextField campoIngresoMensual;
@@ -1280,7 +1496,6 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JTextField campoSaldo;
     private javax.swing.JTextField campoSexo;
     private javax.swing.JTextField campoTelefono;
-    private javax.swing.JTextField campoTipoEvento;
     private javax.swing.JTextField campoTipoID;
     private javax.swing.JComboBox<String> elegirTransaccion;
     private javax.swing.JButton botonConsultarCuenta;
@@ -1303,7 +1518,6 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JLabel labelDireccion;
     private javax.swing.JLabel labelEstado;
     private javax.swing.JLabel labelFecha;
-    private javax.swing.JLabel labelFechaEvento;
     private javax.swing.JLabel labelFechaNacimiento;
     private javax.swing.JLabel labelIdenCliente;
     private javax.swing.JLabel labelIngresoMensual;
@@ -1314,7 +1528,6 @@ public class vista extends javax.swing.JFrame {
     private javax.swing.JLabel labelSaldo;
     private javax.swing.JLabel labelSexo;
     private javax.swing.JLabel labelTelefono;
-    private javax.swing.JLabel labelTipoEvento;
     private javax.swing.JLabel labelTipoID;
     private javax.swing.JPanel panelClientes;
     private javax.swing.JPanel panelCuenta;

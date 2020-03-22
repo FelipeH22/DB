@@ -5,51 +5,53 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import datos.*;
+import java.sql.Date;
 
 public class daoEventoCuenta{
 
-    cuentaAhorro cuenta = new cuentaAhorro();    
-    public void insertar() throws CaException {
-        try {
-            String strSQL = "INSERT INTO movimiento_cuenta ( K_NUM_CUENTA, I_ESTADO, V_SALDO, F_APERTURA, K_IDENTIFICACION) VALUES(?,?,?,?,?,)";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
+    Connection conexion;
+    
+    public daoEventoCuenta(){
+       conexionDB.getInstance().liberarConexion();
+       conexion =  conexionDB.getInstance().tomarConexion();
+    }  
+    
+    public void insertar(eventoCuenta c) throws SQLException {
+            String strSQL = "INSERT INTO evento_cuenta ( K_EVENTO, I_TIPO_EVENTO, F_EVENTO, O_DESCRIPCION, K_NUM_CUENTA) VALUES(?,?,?,?,?)";
             PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setLong(1,cuenta.getK_NUM_CUENTA()); 
-            prepStmt.setString(2, cuenta.getI_ESTADO()); 
-            prepStmt.setFloat(3, cuenta.getV_SALDO()); 
-            prepStmt.setString(4, cuenta.getF_APERTURA()); 
-            prepStmt.setLong(5, cuenta.getK_IDENTIFICACION()); 
+            prepStmt.setLong(1, c.getK_EVENTO()); 
+            prepStmt.setString(2, c.getI_TIPO_EVENTO()); 
+            prepStmt.setDate(3, Date.valueOf(c.getF_EVENTO())); 
+            prepStmt.setString(4, c.getO_DESCRIPCION()); 
+            prepStmt.setLong(5, c.getK_NUM_CUENTA()); 
             prepStmt.executeUpdate();
             prepStmt.close();
+            //////////////////////////
+            String strSQL2 = "UPDATE cuenta_ahorro SET I_ESTADO=? WHERE K_NUM_CUENTA = ?";
+            PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
+            switch (c.getI_TIPO_EVENTO()) {
+            case "ACTIVACION":
+                prepStmt2.setString(1, "ACTIVA");
+                break;
+            case "INACTIVACION":
+                prepStmt2.setString(1, "INACTIVA");
+                break;
+            case "BLOQUEO":
+                prepStmt2.setString(1, "BLOQUEADA");
+                break;
+            default:
+                break;
+            }
+            prepStmt2.setLong(2, c.getK_NUM_CUENTA());        
+            prepStmt2.executeUpdate();
             conexionDB.getInstance().commit();
-          } catch (SQLException e) {
-               throw new CaException( "cuenta de ahorro", "No se pudo crear el registro"+ e.getMessage());
-          }  finally {
-             conexionDB.getInstance().liberarConexion();
-          }
-        
-    }
-
-    public void eliminar() {
-        try{
-            String strSQL = "DELETE FROM cuenta_ahorro WHERE K_NUM_CUENTA = ?";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setLong(1,cuenta.getK_NUM_CUENTA()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
+            System.out.println("Se actualizó el estado");
             conexionDB.getInstance().commit();
-        }catch(SQLException e){
-            System.out.println(e);
-        }
     }
 
     public eventoCuenta[] getEvento() throws SQLException{
         int registros = 0;
         String strSQL2 = "SELECT count(1) as cont FROM evento_cuenta";
-        Connection conexion;
-        conexionDB.getInstance().liberarConexion();
-        conexion = conexionDB.getInstance().tomarConexion();
         PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
         ResultSet res2 = prepStmt2.executeQuery();
         res2.next();
@@ -73,25 +75,4 @@ public class daoEventoCuenta{
         res.close();
         return data2;
     }
-
-    public void actualizar() throws CaException {
-        try {
-            String strSQL = "UPDATE cuenta_ahorro SET I_ESTADO=?, V_SALDO=?, F_APERTURA=?, K_IDENTIFICACION=? WHERE K_NUM_CUENTA = ?";
-            Connection conexion = conexionDB.getInstance().tomarConexion();
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setString(1, cuenta.getI_ESTADO()); 
-            prepStmt.setFloat(2, cuenta.getV_SALDO()); 
-            prepStmt.setString(3, cuenta.getF_APERTURA()); 
-            prepStmt.setLong(4, cuenta.getK_IDENTIFICACION()); 
-            prepStmt.setLong(5,cuenta.getK_NUM_CUENTA()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
-            conexionDB.getInstance().commit();
-        } catch (SQLException e) {
-             throw new CaException( "cuenta", "No se pudo actualizar el registro"+ e.getMessage());
-        }  finally {
-           conexionDB.getInstance().liberarConexion();
-        }
-    }
-    
 }
