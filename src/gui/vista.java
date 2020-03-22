@@ -804,8 +804,46 @@ public class vista extends javax.swing.JFrame {
                 }            
                 break;
             case "RETIRO":
+                model = (DefaultTableModel) tablaMovimientos.getModel();
+                co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaOrigen.getText()));
+                co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText())*(-1));
+                co.setK_MOVIMIENTO(model.getRowCount()+1);
+                dbc3.insertar(co);        
+                filaEncontrada1 = 0;
+                filaEncontrada2 = 0;
+                modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                         modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
+                         System.out.println("Saldo Cambiado");
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
                 break;
             case "CONSIGNACION":
+                
+                model = (DefaultTableModel) tablaMovimientos.getModel();
+                co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaDestino.getText()));
+                co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText()));
+                co.setK_MOVIMIENTO(model.getRowCount()+1);
+                dbc3.insertar(co);        
+                filaEncontrada1 = 0;
+                filaEncontrada2 = 0;
+                modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                         modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
+                         System.out.println("Saldo Cambiado");
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
+                
                 break;
             default:
                 break;
