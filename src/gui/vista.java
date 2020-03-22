@@ -3,6 +3,7 @@ package gui;
 import java.sql.SQLException;
 import db.*;
 import datos.*;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -10,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 /**
  *
@@ -18,6 +20,7 @@ import javax.swing.table.TableRowSorter;
 public class vista extends javax.swing.JFrame {
     int fila,seleccion;
     int operacionCliente, operacionCuenta, operacionEvento;
+    String transaccion;
     daoCuentaAhorro dbc2 = new daoCuentaAhorro();
     cuentaAhorro[] cuentas;
     daoCliente dbc = new daoCliente();
@@ -36,6 +39,7 @@ public class vista extends javax.swing.JFrame {
      */
     public vista() throws SQLException {
         initComponents();
+        this.campoCuentaOrigen.setEnabled(true);
         this.setLocationRelativeTo(null);
         this.setTitle("Mini Banco");
     }
@@ -373,7 +377,13 @@ public class vista extends javax.swing.JFrame {
         campoCuentaOrigen.setEnabled(false);
 
         botonFinalizarTransaccion.setText("Finalizar transacción");
-        botonFinalizarTransaccion.addActionListener(this::botonFinalizarTransaccionActionPerformed);
+        botonFinalizarTransaccion.addActionListener((java.awt.event.ActionEvent evt) -> {
+            try {
+                botonFinalizarTransaccionActionPerformed(evt);
+            } catch (SQLException ex) {
+                Logger.getLogger(vista.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         botonConsultarMovimientos.setText("Consultar movimientos de la cuenta");
         botonConsultarMovimientos.addActionListener(this::botonConsultarMovimientosActionPerformed);
@@ -392,6 +402,7 @@ public class vista extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tablaMovimientos);
 
         botonConsultarTodosMovimientos.setText("Consultar todos los movimientos");
+        botonConsultarTodosMovimientos.addActionListener(this::botonConsultarTodosMovimientosActionPerformed);
 
         javax.swing.GroupLayout panelTransaccionesLayout = new javax.swing.GroupLayout(panelTransacciones);
         panelTransacciones.setLayout(panelTransaccionesLayout);
@@ -660,10 +671,6 @@ public class vista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                                
 
-    private void botonConsultarMovimientosActionPerformed(java.awt.event.ActionEvent evt) {                                                          
-        // TODO add your handling code here:
-    }                                                         
-
     private void botonDesactivarCuentaActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // TODO add your handling code here:
     }                                                     
@@ -674,7 +681,140 @@ public class vista extends javax.swing.JFrame {
 
     private void elegirTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
-    }                                                 
+    }                                            
+    
+    ////////////////////////////////////////////////////
+    //                                                // 
+    //                                                //  
+    //         Listener Botones movmimientos          //
+    //                                                //
+    //                                                //
+    ////////////////////////////////////////////////////
+    
+    private void elegirTransaccionItemStateChanged(java.awt.event.ItemEvent evt) {                                                   
+        switch (this.elegirTransaccion.getSelectedItem().toString()) {
+            case "Retirar":
+                this.transaccion = "RETIRO";
+                this.campoCuentaDestino.setEnabled(false);
+                this.campoCuentaOrigen.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
+                break;
+            case "Transferencia":
+                this.transaccion = "TRANSFERENCIA";
+                this.campoCuentaOrigen.setEnabled(true);
+                this.campoCuentaDestino.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
+                DefaultTableModel dm = (DefaultTableModel) tablaMovimientos.getModel();
+                TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+                tablaMovimientos.setRowSorter(tr);
+                tr.setRowFilter(RowFilter.regexFilter(""));
+                break;
+            case "Consignar":
+                this.transaccion = "CONSIGNACION";
+                this.campoCuentaOrigen.setEnabled(false);
+                this.campoCuentaDestino.setEnabled(true);
+                this.campoCantidad.setEnabled(true);
+                break;
+            case "Seleccionar tipo movimiento":
+                this.campoCuentaOrigen.setEnabled(true);
+                this.campoCuentaDestino.setEnabled(false);
+                this.campoCantidad.setEnabled(false);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    private void botonConsultarMovimientosActionPerformed(java.awt.event.ActionEvent evt) {   
+        DefaultTableModel dm = (DefaultTableModel) tablaMovimientos.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+        tablaMovimientos.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(this.campoCuentaOrigen.getText()));
+        tablaMovimientos.getRowSorter().toggleSortOrder(3);
+        tablaMovimientos.getRowSorter().toggleSortOrder(3);
+        this.tablaMovimientos.setVisible(true);
+
+    }                                                         
+
+    private void botonConsultarTodosMovimientosActionPerformed(java.awt.event.ActionEvent evt) {
+        DefaultTableModel dm = (DefaultTableModel) tablaMovimientos.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(dm);
+        tablaMovimientos.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(""));
+        tablaMovimientos.getRowSorter().toggleSortOrder(3);
+        tablaMovimientos.getRowSorter().toggleSortOrder(3);
+        this.tablaMovimientos.setVisible(true);
+    } 
+    
+    private void botonFinalizarTransaccionActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {    
+        Date myDate = new Date();
+        this.campoCuentaOrigen.setEnabled(false);
+        this.campoCuentaDestino.setEnabled(false);
+        this.campoCantidad.setEnabled(false);
+        movimientoCuenta co = new movimientoCuenta();
+        movimientoCuenta cd = new movimientoCuenta();
+        co.setF_MOVIMIENTO(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms").format(new Timestamp(myDate.getTime())));
+        co.setI_TIPO(this.transaccion);       
+        cd.setF_MOVIMIENTO(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms").format(new Timestamp(myDate.getTime())));
+        cd.setI_TIPO(this.transaccion);
+        switch (this.transaccion) {
+            case "TRANSFERENCIA":
+                co.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaOrigen.getText()));
+                co.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText())*(-1));
+                cd.setK_NUM_CUENTA(Long.valueOf(this.campoCuentaDestino.getText()));
+                cd.setV_MOVIMIENTO(Float.valueOf(this.campoCantidad.getText()));
+                TableModel modelo = tablaMovimientos.getModel();
+                co.setK_MOVIMIENTO(modelo.getRowCount()+1);
+                cd.setK_MOVIMIENTO(modelo.getRowCount()+2);
+                DefaultTableModel model = (DefaultTableModel) tablaMovimientos.getModel();
+                dbc3.insertar(co);
+                dbc3.insertar(cd);
+                Object[] newRow1={co.getK_MOVIMIENTO(),co.getV_MOVIMIENTO(),co.getI_TIPO(),co.getF_MOVIMIENTO(),co.getK_NUM_CUENTA()};
+                model.addRow(newRow1);
+                JOptionPane.showMessageDialog(null, "Movimiento Realizado correctamente");
+                Object[] newRow2={cd.getK_MOVIMIENTO(),cd.getV_MOVIMIENTO(),cd.getI_TIPO(),cd.getF_MOVIMIENTO(),cd.getK_NUM_CUENTA()};
+                model.addRow(newRow2);  
+                tablaMovimientos.getRowSorter().toggleSortOrder(3);
+                tablaMovimientos.getRowSorter().toggleSortOrder(3);
+                
+                //Descuento en las cuentas
+                int filaEncontrada1 = 0;
+                int filaEncontrada2 = 0;
+                DefaultTableModel modeloCuenta = (DefaultTableModel) tablaCuenta.getModel();
+                for (int i = 0; i < tablaCuenta.getRowCount(); i++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(i, 0).toString())==(co.getK_NUM_CUENTA())){
+                        filaEncontrada1 = i;
+                         modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada1, 2).toString())+co.getV_MOVIMIENTO(), filaEncontrada1, 2);
+                         System.out.println("Saldo Cambiado");
+                        break;
+                    }else{
+                        filaEncontrada1 = -1;
+                    }
+                }
+                
+                for (int j = 0; j < tablaCuenta.getRowCount(); j++) {
+                    if(Long.valueOf(tablaCuenta.getValueAt(j, 0).toString())==(cd.getK_NUM_CUENTA())){
+                        filaEncontrada2 = j;
+                        modeloCuenta.setValueAt(Float.valueOf(modeloCuenta.getValueAt(filaEncontrada2, 2).toString())+cd.getV_MOVIMIENTO(), filaEncontrada2, 2);
+                        System.out.println("Saldo Cambiado");
+                        break;
+                    }else{
+                        filaEncontrada2 = -1;
+                    }
+                }            
+                break;
+            case "RETIRO":
+                break;
+            case "CONSIGNACION":
+                break;
+            default:
+                break;
+        }
+    } 
+    
+    
+    
+    
     ////////////////////////////////////////////////////
     //                                                // 
     //                                                //  
@@ -800,13 +940,6 @@ public class vista extends javax.swing.JFrame {
     
     
     
-    
-    private void botonFinalizarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {                                                          
-        this.campoCuentaOrigen.setEnabled(false);
-        this.campoCuentaDestino.setEnabled(false);
-        this.campoCantidad.setEnabled(false);
-    } 
-    
     ////////////////////////////////////////////////////
     //                                                // 
     //                                                //  
@@ -844,27 +977,6 @@ public class vista extends javax.swing.JFrame {
         this.botonConfirmar.setEnabled(true);
     }                                                      
 
-    private void elegirTransaccionItemStateChanged(java.awt.event.ItemEvent evt) {                                                   
-        switch (this.elegirTransaccion.getSelectedItem().toString()) {
-            case "Retirar":
-                this.campoCuentaDestino.setEnabled(false);
-                this.campoCuentaOrigen.setEnabled(true);
-                this.campoCantidad.setEnabled(true);
-                break;
-            case "Transferencia":
-                this.campoCuentaOrigen.setEnabled(true);
-                this.campoCuentaDestino.setEnabled(true);
-                this.campoCantidad.setEnabled(true);
-                break;
-            case "Consignar":
-                this.campoCuentaOrigen.setEnabled(false);
-                this.campoCuentaDestino.setEnabled(true);
-                this.campoCantidad.setEnabled(true);
-            default:
-                break;
-        }
-    }    
-    
     private void botonEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         operacionCliente = 4;
         this.botonConfirmar.setEnabled(true);
