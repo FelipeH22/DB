@@ -44,10 +44,6 @@ public class daoCliente{
     public cliente[] get() throws SQLException{
         int registros = 0;
         String strSQL2 = "SELECT count(1) as cont FROM cliente";
-<<<<<<< HEAD
-=======
-        Connection conexion = conexionDB.getInstance().tomarConexion();
->>>>>>> master
         PreparedStatement prepStmt2 = conexion.prepareStatement(strSQL2);
         ResultSet res2 = prepStmt2.executeQuery();
         res2.next();
@@ -66,11 +62,7 @@ public class daoCliente{
             data[i].setN_NOMBRE(res.getString("N_NOMBRE"));
             data[i].setN_APELLIDO(res.getString("N_APELLIDO"));
             data[i].setO_DIRECCION(res.getString("O_DIRECCION"));
-<<<<<<< HEAD
             data[i].setO_TELEFONO(res.getLong("O_TELEFONO"));
-=======
-            //data[i].setO_TELEFONO(res.getInt("O_TELEFONO"));
->>>>>>> master
             data[i].setI_SEXO(res.getString("I_SEXO").charAt(0));
             data[i].setF_NACIMIENTO(res.getDate("F_NACIMIENTO").toString());
             data[i].setO_OCUPACION(res.getString("O_OCUPACION"));
