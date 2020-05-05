@@ -1,2 +1,2 @@
 # DB
-Fundamentos de Bases de Datos
+Proyecto DB
