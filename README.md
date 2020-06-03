@@ -10,4 +10,5 @@ _Minibanco_
  * En la clase conexionDB se debe reemplazar el nombre de usuario y la contraseña con los datos con que se creó el esquema en la BD
 ```
 ## Diagrama entidad relación de la base de datos
-https://raw.githubusercontent.com/FelipeH22/DB/master/Diagrama_ER.png?token=AKCI5BZDPSOBQVWKLSMQMT263AUZC
+
+![Diagrama ER](Diagrama_ER.png)
