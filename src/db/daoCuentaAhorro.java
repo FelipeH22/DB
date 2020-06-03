@@ -15,27 +15,27 @@ public class daoCuentaAhorro{
     }
     
     public void insertar(cuentaAhorro c) throws SQLException {
-            String strSQL = "INSERT INTO cuenta_ahorro ( K_NUM_CUENTA, I_ESTADO, V_SALDO, F_APERTURA, K_IDENTIFICACION) VALUES(?,?,?,?,?)";
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setLong(1, c.getK_NUM_CUENTA()); 
-            prepStmt.setString(2, c.getI_ESTADO()); 
-            prepStmt.setFloat(3, c.getV_SALDO()); 
-            prepStmt.setDate(4, Date.valueOf(c.getF_APERTURA())); 
-            prepStmt.setLong(5, c.getK_IDENTIFICACION()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
-            conexionDB.getInstance().commit();
-            conexionDB.getInstance().liberarConexion();
+        String strSQL = "INSERT INTO cuenta_ahorro ( K_NUM_CUENTA, I_ESTADO, V_SALDO, F_APERTURA, K_IDENTIFICACION) VALUES(?,?,?,?,?)";
+        PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+        prepStmt.setLong(1, c.getK_NUM_CUENTA()); 
+        prepStmt.setString(2, c.getI_ESTADO()); 
+        prepStmt.setFloat(3, c.getV_SALDO()); 
+        prepStmt.setDate(4, Date.valueOf(c.getF_APERTURA())); 
+        prepStmt.setLong(5, c.getK_IDENTIFICACION()); 
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conexionDB.getInstance().commit();
+        conexionDB.getInstance().liberarConexion();
         
     }
 
     public void eliminar(cuentaAhorro c) throws SQLException {
-            String strSQL = "DELETE FROM cuenta_ahorro WHERE K_NUM_CUENTA = ?";
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setLong(1,c.getK_NUM_CUENTA()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
-            conexionDB.getInstance().commit();
+        String strSQL = "DELETE FROM cuenta_ahorro WHERE K_NUM_CUENTA = ?";
+        PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+        prepStmt.setLong(1,c.getK_NUM_CUENTA()); 
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conexionDB.getInstance().commit();
     }
 
     public cuentaAhorro[] getCuenta() throws SQLException{
@@ -66,16 +66,16 @@ public class daoCuentaAhorro{
     }
 
     public void actualizar(cuentaAhorro c) throws CaException, SQLException {
-            String strSQL = "UPDATE cuenta_ahorro SET I_ESTADO=?, V_SALDO=?, F_APERTURA=?, K_IDENTIFICACION=? WHERE K_NUM_CUENTA = ?";
-            PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
-            prepStmt.setString(1, c.getI_ESTADO()); 
-            prepStmt.setFloat(2, c.getV_SALDO()); 
-            prepStmt.setString(3, c.getF_APERTURA()); 
-            prepStmt.setLong(4, c.getK_IDENTIFICACION()); 
-            prepStmt.setLong(5,c.getK_NUM_CUENTA()); 
-            prepStmt.executeUpdate();
-            prepStmt.close();
-            conexionDB.getInstance().commit();
+        String strSQL = "UPDATE cuenta_ahorro SET I_ESTADO=?, V_SALDO=?, F_APERTURA=?, K_IDENTIFICACION=? WHERE K_NUM_CUENTA = ?";
+        PreparedStatement prepStmt = conexion.prepareStatement(strSQL);
+        prepStmt.setString(1, c.getI_ESTADO()); 
+        prepStmt.setFloat(2, c.getV_SALDO()); 
+        prepStmt.setString(3, c.getF_APERTURA()); 
+        prepStmt.setLong(4, c.getK_IDENTIFICACION()); 
+        prepStmt.setLong(5,c.getK_NUM_CUENTA()); 
+        prepStmt.executeUpdate();
+        prepStmt.close();
+        conexionDB.getInstance().commit();
     }
     
 }
