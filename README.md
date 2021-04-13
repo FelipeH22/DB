@@ -1,6 +1,4 @@
 # DB
-_Proyecto final curso fundamentos de bases de datos (Universidad Distrital Francisco José de Caldas)_
-_Minibanco_
 
 ## Para ejecutar el proyecto:
 
